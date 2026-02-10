@@ -62,23 +62,23 @@ export default function Header() {
                             aria-label={'Toggle Navigation'}
                         />
                     </Flex>
-                    <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} alignItems="center">
+                    <Flex justify={{ base: 'center', md: 'start' }} alignItems="center">
                         <Text
                             textAlign={useDisclosure().isOpen ? 'center' : 'left'}
                             fontFamily={'heading'}
-                            fontWeight="800"
+                            fontWeight="bold"
                             fontSize="2xl"
-                            bgGradient="linear(to-r, brand.500, brand.300)"
-                            bgClip="text"
+                            color="brand.600"
+                            _dark={{ color: "white" }}
                             as={RouterLink}
                             to={isAuthenticated ? "/dashboard" : "/"}
                             _hover={{ textDecoration: 'none' }}>
                             ResumeAI
                         </Text>
+                    </Flex>
 
-                        <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-                            <DesktopNav isAuthenticated={isAuthenticated} />
-                        </Flex>
+                    <Flex display={{ base: 'none', md: 'flex' }} flex={1} justify="flex-end" mr={10}>
+                        <DesktopNav isAuthenticated={isAuthenticated} />
                     </Flex>
 
                     <Stack
@@ -96,23 +96,13 @@ export default function Header() {
                                 Sign Out
                             </Button>
                         ) : (
-                            <>
-                                <Button
-                                    as={RouterLink}
-                                    fontSize={'sm'}
-                                    fontWeight={600}
-                                    variant={'ghost'}
-                                    to={'/login'}>
-                                    Sign In
-                                </Button>
-                                <CustomButton
-                                    as={RouterLink}
-                                    to={'/register'}
-                                    size="sm"
-                                    px={6}>
-                                    Sign Up
-                                </CustomButton>
-                            </>
+                            <CustomButton
+                                as={RouterLink}
+                                to={'/register'}
+                                size="sm"
+                                px={6}>
+                                Sign Up
+                            </CustomButton>
                         )}
                     </Stack>
                 </Container>
@@ -135,8 +125,11 @@ const DesktopNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
     ] : [
-        { label: 'Features', href: '/' },
-        { label: 'How it Works', href: '/' },
+        { label: 'Home', href: '/' },
+        { label: 'Features', href: '#features' },
+        { label: 'How it Works', href: '#how-it-works' },
+        { label: 'About', href: '#about' },
+        { label: 'Contact', href: '#contact' },
     ];
 
     return (
@@ -169,8 +162,11 @@ const MobileNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
     ] : [
-        { label: 'Features', href: '/' },
-        { label: 'How it Works', href: '/' },
+        { label: 'Home', href: '/' },
+        { label: 'Features', href: '#features' },
+        { label: 'How it Works', href: '#how-it-works' },
+        { label: 'About', href: '#about' },
+        { label: 'Contact', href: '#contact' },
     ];
 
     return (

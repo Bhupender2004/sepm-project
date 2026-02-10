@@ -25,7 +25,7 @@ const Footer = () => {
                     © {new Date().getFullYear()} ResumeAI. All rights reserved
                 </Text>
                 <Stack direction={'row'} spacing={6}>
-                    {['Home', 'About', 'Contact', 'Privacy'].map((item) => (
+                    {['Privacy', 'Terms'].map((item) => (
                         <Link
                             key={item}
                             href={'#'}

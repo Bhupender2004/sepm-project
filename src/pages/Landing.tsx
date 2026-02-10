@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Container, Button, Stack } from '@chakra-ui/react';
+import { Box, Heading, Text, Container, Button, Stack, Flex } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import FeaturesSection from '../components/features/FeaturesSection';
 import HowItWorks from '../components/features/HowItWorks';
@@ -36,7 +36,7 @@ const Landing = () => {
                     <Flex
                         as={Box}
                         textAlign={'center'}
-                        spacing={{ base: 10, md: 14 }}
+                        gap={{ base: 10, md: 14 }}
                         py={{ base: 20, md: 36 }}
                         minH="calc(100vh - 70px)" // Full height minus header
                         direction="column"
@@ -100,7 +100,7 @@ const Landing = () => {
                                 Learn more
                             </Button>
                         </Stack>
-                    </Stack>
+                    </Flex>
                 </Container>
             </Box>
 
