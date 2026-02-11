@@ -124,6 +124,7 @@ const DesktopNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         { label: 'Analyze', href: '/analyze' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
+        { label: 'Settings', href: '/settings' },
     ] : [
         { label: 'Home', href: '/' },
         { label: 'Features', href: '#features' },
@@ -161,6 +162,7 @@ const MobileNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         { label: 'Analyze', href: '/analyze' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
+        { label: 'Settings', href: '/settings' },
     ] : [
         { label: 'Home', href: '/' },
         { label: 'Features', href: '#features' },

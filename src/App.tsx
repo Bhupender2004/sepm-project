@@ -10,6 +10,7 @@ import ResumeAnalysis from './pages/Analysis/ResumeAnalysis';
 import AnalysisResults from './pages/Analysis/AnalysisResults';
 import JobSearch from './pages/Jobs/JobSearch';
 import SavedJobs from './pages/Jobs/SavedJobs';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/results" element={<AnalysisResults />} />
               <Route path="/jobs" element={<JobSearch />} />
               <Route path="/saved-jobs" element={<SavedJobs />} />
+              <Route path="/settings" element={<Settings />} />
             </Route>
           </Routes>
         </Layout>

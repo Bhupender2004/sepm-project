@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import CustomCard from '../../components/common/CustomCard';
 import FormInput from '../../components/common/FormInput';
 import CustomButton from '../../components/common/CustomButton';
+import { useAuth } from '../../context/AuthContext';
 
 const MotionContainer = motion(Container);
 
@@ -12,11 +13,18 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     const navigate = useNavigate();
     const toast = useToast();
+    const { login } = useAuth();
 
     const onSubmit = async (data: any) => {
         // Mock API call
         return new Promise((resolve) => {
             setTimeout(() => {
+                login({
+                    id: '1',
+                    name: 'Test User',
+                    email: data.email,
+                });
+
                 toast({
                     title: 'Welcome Back',
                     description: "You have signed in successfully.",
