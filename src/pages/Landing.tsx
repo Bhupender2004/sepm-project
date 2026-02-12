@@ -2,7 +2,7 @@ import { Box, Heading, Text, Container, Button, Stack, Flex } from '@chakra-ui/r
 import { Link as RouterLink } from 'react-router-dom';
 import FeaturesSection from '../components/features/FeaturesSection';
 import HowItWorks from '../components/features/HowItWorks';
-import Testimonials from '../components/features/Testimonials';
+
 
 const Landing = () => {
     return (
@@ -69,7 +69,7 @@ const Landing = () => {
                             position={'relative'}>
                             <Button
                                 as={RouterLink}
-                                to="/register"
+                                to="/dashboard"
                                 size="lg"
                                 rounded={'full'}
                                 px={10}
@@ -106,7 +106,7 @@ const Landing = () => {
 
             <FeaturesSection />
             <HowItWorks />
-            <Testimonials />
+
         </>
     );
 };

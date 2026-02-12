@@ -3,7 +3,6 @@ import {
     Flex,
     Text,
     IconButton,
-    Button,
     Stack,
     Collapse,
     useColorModeValue,
@@ -11,19 +10,12 @@ import {
     Container,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { Link as RouterLink } from 'react-router-dom';
 import CustomButton from '../common/CustomButton';
 
 export default function Header() {
     const { isOpen, onToggle } = useDisclosure();
-    const { isAuthenticated, logout } = useAuth();
-    const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/');
-    };
 
     return (
         <Box
@@ -71,14 +63,14 @@ export default function Header() {
                             color="brand.600"
                             _dark={{ color: "white" }}
                             as={RouterLink}
-                            to={isAuthenticated ? "/dashboard" : "/"}
+                            to="/dashboard"
                             _hover={{ textDecoration: 'none' }}>
                             ResumeAI
                         </Text>
                     </Flex>
 
                     <Flex display={{ base: 'none', md: 'flex' }} flex={1} justify="flex-end" mr={10}>
-                        <DesktopNav isAuthenticated={isAuthenticated} />
+                        <DesktopNav />
                     </Flex>
 
                     <Stack
@@ -86,51 +78,34 @@ export default function Header() {
                         justify={'flex-end'}
                         direction={'row'}
                         spacing={4}>
-                        {isAuthenticated ? (
-                            <Button
-                                as={'a'}
-                                fontSize={'sm'}
-                                fontWeight={600}
-                                variant={'ghost'}
-                                onClick={handleLogout}>
-                                Sign Out
-                            </Button>
-                        ) : (
-                            <CustomButton
-                                as={RouterLink}
-                                to={'/register'}
-                                size="sm"
-                                px={6}>
-                                Sign Up
-                            </CustomButton>
-                        )}
+                        <CustomButton
+                            as={RouterLink}
+                            to={'/dashboard'}
+                            size="sm"
+                            px={6}>
+                            Dashboard
+                        </CustomButton>
                     </Stack>
                 </Container>
             </Flex>
 
             <Collapse in={isOpen} animateOpacity>
-                <MobileNav isAuthenticated={isAuthenticated} />
+                <MobileNav />
             </Collapse>
         </Box>
     );
 }
 
-const DesktopNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+const DesktopNav = () => {
     const linkColor = useColorModeValue('gray.600', 'gray.200');
     const linkHoverColor = useColorModeValue('brand.500', 'white');
 
-    const navItems = isAuthenticated ? [
+    const navItems = [
         { label: 'Dashboard', href: '/dashboard' },
         { label: 'Analyze', href: '/analyze' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
         { label: 'Settings', href: '/settings' },
-    ] : [
-        { label: 'Home', href: '/' },
-        { label: 'Features', href: '#features' },
-        { label: 'How it Works', href: '#how-it-works' },
-        { label: 'About', href: '#about' },
-        { label: 'Contact', href: '#contact' },
     ];
 
     return (
@@ -156,19 +131,13 @@ const DesktopNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
     );
 };
 
-const MobileNav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
-    const navItems = isAuthenticated ? [
+const MobileNav = () => {
+    const navItems = [
         { label: 'Dashboard', href: '/dashboard' },
         { label: 'Analyze', href: '/analyze' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
         { label: 'Settings', href: '/settings' },
-    ] : [
-        { label: 'Home', href: '/' },
-        { label: 'Features', href: '#features' },
-        { label: 'How it Works', href: '#how-it-works' },
-        { label: 'About', href: '#about' },
-        { label: 'Contact', href: '#contact' },
     ];
 
     return (
