@@ -63,7 +63,7 @@ export default function Header() {
                             color="brand.600"
                             _dark={{ color: "white" }}
                             as={RouterLink}
-                            to="/dashboard"
+                            to="/"
                             _hover={{ textDecoration: 'none' }}>
                             ResumeAI
                         </Text>
@@ -102,7 +102,7 @@ const DesktopNav = () => {
 
     const navItems = [
         { label: 'Dashboard', href: '/dashboard' },
-        { label: 'Analyze', href: '/analyze' },
+        { label: 'Analyze', href: '/' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
         { label: 'Settings', href: '/settings' },
@@ -134,7 +134,7 @@ const DesktopNav = () => {
 const MobileNav = () => {
     const navItems = [
         { label: 'Dashboard', href: '/dashboard' },
-        { label: 'Analyze', href: '/analyze' },
+        { label: 'Analyze', href: '/' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
         { label: 'Settings', href: '/settings' },

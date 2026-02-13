@@ -48,7 +48,7 @@ const Dashboard = () => {
                         <Heading size="lg">Hello, Job Seeker!</Heading>
                         <Text color="gray.600">Here's what's happening with your job search.</Text>
                     </Box>
-                    <CustomButton leftIcon={<Icon as={FaFileUpload} />} as={RouterLink} to="/analyze">
+                    <CustomButton leftIcon={<Icon as={FaFileUpload} />} as={RouterLink} to="/">
                         New Analysis
                     </CustomButton>
                 </Flex>
