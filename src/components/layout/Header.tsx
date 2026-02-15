@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
-import CustomButton from '../common/CustomButton';
+
 
 export default function Header() {
     const { isOpen, onToggle } = useDisclosure();
@@ -73,19 +73,7 @@ export default function Header() {
                         <DesktopNav />
                     </Flex>
 
-                    <Stack
-                        flex={{ base: 1, md: 0 }}
-                        justify={'flex-end'}
-                        direction={'row'}
-                        spacing={4}>
-                        <CustomButton
-                            as={RouterLink}
-                            to={'/dashboard'}
-                            size="sm"
-                            px={6}>
-                            Dashboard
-                        </CustomButton>
-                    </Stack>
+
                 </Container>
             </Flex>
 
