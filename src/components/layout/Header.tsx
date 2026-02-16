@@ -93,7 +93,6 @@ const DesktopNav = () => {
         { label: 'Analyze', href: '/' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
-        { label: 'Settings', href: '/settings' },
     ];
 
     return (
@@ -125,7 +124,6 @@ const MobileNav = () => {
         { label: 'Analyze', href: '/' },
         { label: 'Jobs', href: '/jobs' },
         { label: 'Saved', href: '/saved-jobs' },
-        { label: 'Settings', href: '/settings' },
     ];
 
     return (
