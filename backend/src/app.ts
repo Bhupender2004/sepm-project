@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import config from './config/env';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
-import logger from './utils/logger.util';
 
 // Import routes
 import authRoutes from './routes/auth.routes';
@@ -38,7 +37,7 @@ if (config.nodeEnv === 'development') {
 }
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
     res.status(200).json({
         success: true,
         message: 'Server is running',
