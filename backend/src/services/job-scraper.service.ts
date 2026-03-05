@@ -204,29 +204,96 @@ class JobScraperService {
                     'X-RapidAPI-Key': rapidApiKey,
                     'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
                 },
-                timeout: 15000
+                timeout: 5000
             };
 
             const response = await axios.request(options);
             const jobs = response.data?.data || [];
 
+            return jobs.slice(0, limit).map((job: any) => {
+                // Normalize the source from JSearch publisher
+                let normalizedSource = 'Google';
+                const publisher = (job.job_publisher || '').toLowerCase();
+                if (publisher.includes('linkedin')) normalizedSource = 'LinkedIn';
+                else if (publisher.includes('naukri')) normalizedSource = 'Naukri';
+                else if (publisher.includes('indeed')) normalizedSource = 'Indeed';
+                else if (publisher.includes('glassdoor')) normalizedSource = 'Glassdoor';
+                else if (publisher) normalizedSource = job.job_publisher; // Keep original if unknown
+
+                return {
+                    id: `jsearch-${job.job_id || Math.random()}`,
+                    title: job.job_title || 'Unknown Position',
+                    company: job.employer_name || 'Unknown Company',
+                    location: job.job_city ? `${job.job_city}, ${job.job_state || ''}` : (location || 'Remote'),
+                    type: job.job_employment_type || 'Full-time',
+                    posted: job.job_posted_at_datetime_utc || new Date().toISOString(),
+                    description: (job.job_description || '').substring(0, 300) + '... (Apply for full details)',
+                    postingUrl: job.job_apply_link || job.job_google_link || '#',
+                    salary: job.job_min_salary ? `$${job.job_min_salary} - $${job.job_max_salary}` : undefined,
+                    companyLogo: job.employer_logo || undefined,
+                    source: normalizedSource,
+                    tags: keywords,
+                    matchScore: 0,
+                };
+            });
+        } catch (error: any) {
+            logger.warn(`JSearch fetch failed: ${error.message}`);
+            return [];
+        }
+    }
+
+    /**
+     * Fetch jobs from Glassdoor API via RapidAPI
+     */
+    async searchGlassdoor(keywords: string[], location: string, limit: number = 20): Promise<ScrapedJob[]> {
+        const rapidApiKey = process.env.GLASSDOOR_RAPIDAPI_KEY;
+        if (!rapidApiKey || rapidApiKey.includes('paste-your')) {
+            logger.warn('Skipping Glassdoor API: GLASSDOOR_RAPIDAPI_KEY is not configured in .env');
+            return [];
+        }
+
+        try {
+            // Use only the first keyword to ensure better matches with strict APIs
+            const query = keywords.length > 0 ? keywords[0] : 'software engineer';
+            logger.info(`Fetching Glassdoor (RapidAPI) jobs for: ${query} in ${location || 'anywhere'}`);
+
+            const options = {
+                method: 'GET',
+                url: 'https://glassdoor.p.rapidapi.com/jobs/search',
+                params: {
+                    keyword: query,
+                    location_id: '1', // Default location if location not resolved by Glassdoor
+                    location_type: 'N'
+                },
+                headers: {
+                    'X-RapidAPI-Key': rapidApiKey,
+                    'X-RapidAPI-Host': 'glassdoor.p.rapidapi.com'
+                },
+                timeout: 5000
+            };
+
+            const response = await axios.request(options);
+            // Different wrapper APIs structure their Glassdoor data differently. 
+            // We use a safe fallback here.
+            const jobs = response.data?.response?.jobListings || response.data?.data || [];
+
             return jobs.slice(0, limit).map((job: any) => ({
-                id: `jsearch-${job.job_id || Math.random()}`,
-                title: job.job_title || 'Unknown Position',
-                company: job.employer_name || 'Unknown Company',
-                location: job.job_city ? `${job.job_city}, ${job.job_state || ''}` : (location || 'Remote'),
-                type: job.job_employment_type || 'Full-time',
-                posted: job.job_posted_at_datetime_utc || new Date().toISOString(),
-                description: (job.job_description || '').substring(0, 300) + '... (Apply for full details)',
-                postingUrl: job.job_apply_link || job.job_google_link || '#',
-                salary: job.job_min_salary ? `$${job.job_min_salary} - $${job.job_max_salary}` : undefined,
-                companyLogo: job.employer_logo || undefined,
-                source: job.job_publisher || 'Google',
+                id: `glassdoor-${job.jobListingId || job.job_id || Math.random()}`,
+                title: job.jobTitle || job.title || 'Unknown Position',
+                company: job.employer?.name || job.company_name || 'Unknown Company',
+                location: job.location || location || 'Remote',
+                type: 'Full-time', // Glassdoor API doesn't always return this cleanly in the search list
+                posted: job.postingDate || new Date().toISOString(),
+                description: (job.descriptionSnippet || job.description || '').substring(0, 300) + '...',
+                postingUrl: job.jobViewUrl || job.url || '#',
+                salary: job.salaryEstimate ? `${job.salaryEstimate.currencySymbol}${job.salaryEstimate.min} - ${job.salaryEstimate.max}` : undefined,
+                companyLogo: job.employer?.logoUrl || job.company_logo || undefined,
+                source: 'Glassdoor',
                 tags: keywords,
                 matchScore: 0,
             }));
         } catch (error: any) {
-            logger.warn(`JSearch fetch failed: ${error.message}`);
+            logger.warn(`Glassdoor API fetch failed: ${error.message}`);
             return [];
         }
     }
@@ -249,18 +316,20 @@ class JobScraperService {
         const results = await Promise.allSettled([
             this.searchRemotive(keywords, Math.ceil(limit / 2)),
             this.searchRemoteOK(keywords, Math.ceil(limit / 2)),
-            this.searchJSearch(keywords, loc, limit)
+            this.searchJSearch(keywords, loc, limit),
+            this.searchGlassdoor(keywords, loc, limit)
         ]);
 
         const remotiveJobs = results[0].status === 'fulfilled' ? results[0].value : [];
         const remoteOkJobs = results[1].status === 'fulfilled' ? results[1].value : [];
         const jsearchJobs = results[2].status === 'fulfilled' ? results[2].value : [];
+        const glassdoorJobs = results[3].status === 'fulfilled' ? results[3].value : [];
 
         // Merge and deduplicate by title+company
         const seen = new Set<string>();
         const allJobs: ScrapedJob[] = [];
 
-        for (const job of [...remotiveJobs, ...remoteOkJobs, ...jsearchJobs]) {
+        for (const job of [...remotiveJobs, ...remoteOkJobs, ...jsearchJobs, ...glassdoorJobs]) {
             const key = `${job.title.toLowerCase()}-${job.company.toLowerCase()}`;
             if (!seen.has(key)) {
                 seen.add(key);

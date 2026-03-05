@@ -65,6 +65,9 @@ const JobFilters = ({
                             <Badge colorScheme="cyan" px={2} py={0.5} borderRadius="full">RemoteOK</Badge>
                             <Badge colorScheme="linkedin" px={2} py={0.5} borderRadius="full">LinkedIn</Badge>
                             <Badge colorScheme="blue" px={2} py={0.5} borderRadius="full">Naukri</Badge>
+                            <Badge colorScheme="green" px={2} py={0.5} borderRadius="full">Glassdoor</Badge>
+                            <Badge colorScheme="orange" px={2} py={0.5} borderRadius="full">Indeed</Badge>
+                            <Badge colorScheme="red" px={2} py={0.5} borderRadius="full">Google</Badge>
                         </HStack>
                         <Text fontSize="xs" color="gray.500">Real jobs from public boards</Text>
                     </Stack>
@@ -111,7 +114,8 @@ const JobSearch = () => {
     const visibleJobs = jobs.filter(job => {
         if (selectedTypes.length === 0) return true;
         const jobTypeLower = (job.type || '').toLowerCase().replace(/[_-]/g, ' ');
-        return selectedTypes.some(t => jobTypeLower.includes(t.toLowerCase()));
+        // Also replace hyphens in the selected type search string
+        return selectedTypes.some(t => jobTypeLower.includes(t.toLowerCase().replace(/[_-]/g, ' ')));
     });
 
     const handleSearch = () => {
@@ -218,6 +222,9 @@ const JobSearch = () => {
                                         <Badge colorScheme="cyan" variant="subtle">RemoteOK</Badge>
                                         <Badge colorScheme="linkedin" variant="subtle">LinkedIn</Badge>
                                         <Badge colorScheme="blue" variant="subtle">Naukri</Badge>
+                                        <Badge colorScheme="green" variant="subtle">Glassdoor</Badge>
+                                        <Badge colorScheme="orange" variant="subtle">Indeed</Badge>
+                                        <Badge colorScheme="red" variant="subtle">Google</Badge>
                                     </HStack>
                                 </Flex>
                             )}

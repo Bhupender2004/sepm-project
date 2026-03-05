@@ -1,0 +1,167 @@
+
+> resume-analyzer-backend@1.0.0 dev
+> nodemon --exec "ts-node --transpile-only -r tsconfig-paths/register src/server.ts"
+
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): src\**\*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node --transpile-only -r tsconfig-paths/register src/server.ts`[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT 1+1 AS result[39m
+2026-03-05 21:48:25 [32minfo[39m: [32m✅ Database connection established successfully[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='users';[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`users`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_1`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_2`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='resumes';[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`resumes`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_resumes_1`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='job_descriptions';[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`job_descriptions`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_job_descriptions_1`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='analyses';[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`analyses`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_analyses_1`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='jobs';[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`jobs`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_1`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_2`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_3`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`jobs_external_job_id_source_platform`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='saved_jobs';[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`saved_jobs`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_1`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_2`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_3`)[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`saved_jobs_user_id_job_id`)[39m
+2026-03-05 21:48:25 [32minfo[39m: [32m✅ Database synchronized[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (bdd2029c-253d-4769-92ce-5cce17d8c782): BEGIN DEFERRED TRANSACTION;[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (bdd2029c-253d-4769-92ce-5cce17d8c782): SELECT `id`, `fullName`, `email`, `passwordHash`, `emailVerified`, `emailVerificationToken`, `emailVerificationExpires`, `passwordResetToken`, `passwordResetExpires`, `profilePicture`, `phone`, `location`, `linkedinUrl`, `portfolioUrl`, `preferences`, `lastLoginAt`, `deletedAt`, `createdAt`, `updatedAt` FROM `users` AS `User` WHERE (`User`.`deletedAt` IS NULL AND `User`.`id` = '00000000-0000-0000-0000-000000000001');[39m
+2026-03-05 21:48:25 [34mdebug[39m: [34mExecuting (bdd2029c-253d-4769-92ce-5cce17d8c782): COMMIT;[39m
+2026-03-05 21:48:25 [31merror[39m: [31mUncaught Exception: listen EADDRINUSE: address already in use :::5000[39m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node --transpile-only -r tsconfig-paths/register src/server.ts`[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT 1+1 AS result[39m
+2026-03-05 22:40:08 [32minfo[39m: [32m✅ Database connection established successfully[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='users';[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`users`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_1`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_2`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='resumes';[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`resumes`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_resumes_1`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='job_descriptions';[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`job_descriptions`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_job_descriptions_1`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='analyses';[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`analyses`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_analyses_1`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='jobs';[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`jobs`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_1`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_2`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_3`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`jobs_external_job_id_source_platform`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='saved_jobs';[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`saved_jobs`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_1`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_2`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_3`)[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`saved_jobs_user_id_job_id`)[39m
+2026-03-05 22:40:08 [32minfo[39m: [32m✅ Database synchronized[39m
+2026-03-05 22:40:08 [34mdebug[39m: [34mExecuting (f9e78f3c-8bbf-449e-aa7f-587059117aad): BEGIN DEFERRED TRANSACTION;[39m
+2026-03-05 22:40:09 [34mdebug[39m: [34mExecuting (f9e78f3c-8bbf-449e-aa7f-587059117aad): SELECT `id`, `fullName`, `email`, `passwordHash`, `emailVerified`, `emailVerificationToken`, `emailVerificationExpires`, `passwordResetToken`, `passwordResetExpires`, `profilePicture`, `phone`, `location`, `linkedinUrl`, `portfolioUrl`, `preferences`, `lastLoginAt`, `deletedAt`, `createdAt`, `updatedAt` FROM `users` AS `User` WHERE (`User`.`deletedAt` IS NULL AND `User`.`id` = '00000000-0000-0000-0000-000000000001');[39m
+2026-03-05 22:40:09 [34mdebug[39m: [34mExecuting (f9e78f3c-8bbf-449e-aa7f-587059117aad): COMMIT;[39m
+2026-03-05 22:40:09 [32minfo[39m: [32m🚀 Server running on port 5000 in development mode[39m
+2026-03-05 22:40:09 [32minfo[39m: [32m📝 API available at http://localhost:5000/api[39m
+2026-03-05 22:40:09 [32minfo[39m: [32m❤️  Health check at http://localhost:5000/health[39m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node --transpile-only -r tsconfig-paths/register src/server.ts`[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT 1+1 AS result[39m
+2026-03-05 22:58:17 [32minfo[39m: [32m✅ Database connection established successfully[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='users';[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`users`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_1`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_2`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='resumes';[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`resumes`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_resumes_1`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='job_descriptions';[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`job_descriptions`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_job_descriptions_1`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='analyses';[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`analyses`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_analyses_1`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='jobs';[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`jobs`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_1`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_2`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_3`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`jobs_external_job_id_source_platform`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='saved_jobs';[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`saved_jobs`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_1`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_2`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_3`)[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`saved_jobs_user_id_job_id`)[39m
+2026-03-05 22:58:17 [32minfo[39m: [32m✅ Database synchronized[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (d2cb1306-a759-4ca7-b64c-c4c18a1c4a6a): BEGIN DEFERRED TRANSACTION;[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (d2cb1306-a759-4ca7-b64c-c4c18a1c4a6a): SELECT `id`, `fullName`, `email`, `passwordHash`, `emailVerified`, `emailVerificationToken`, `emailVerificationExpires`, `passwordResetToken`, `passwordResetExpires`, `profilePicture`, `phone`, `location`, `linkedinUrl`, `portfolioUrl`, `preferences`, `lastLoginAt`, `deletedAt`, `createdAt`, `updatedAt` FROM `users` AS `User` WHERE (`User`.`deletedAt` IS NULL AND `User`.`id` = '00000000-0000-0000-0000-000000000001');[39m
+2026-03-05 22:58:17 [34mdebug[39m: [34mExecuting (d2cb1306-a759-4ca7-b64c-c4c18a1c4a6a): COMMIT;[39m
+2026-03-05 22:58:17 [32minfo[39m: [32m🚀 Server running on port 5000 in development mode[39m
+2026-03-05 22:58:17 [32minfo[39m: [32m📝 API available at http://localhost:5000/api[39m
+2026-03-05 22:58:17 [32minfo[39m: [32m❤️  Health check at http://localhost:5000/health[39m
+2026-03-05 22:59:47 [34mdebug[39m: [34mExecuting (default): SELECT `SavedJob`.`id`, `SavedJob`.`userId`, `SavedJob`.`jobId`, `SavedJob`.`applicationStatus`, `SavedJob`.`notes`, `SavedJob`.`reminderDate`, `SavedJob`.`savedAt`, `SavedJob`.`createdAt`, `SavedJob`.`updatedAt`, `job`.`id` AS `job.id`, `job`.`externalJobId` AS `job.externalJobId`, `job`.`sourcePlatform` AS `job.sourcePlatform`, `job`.`jobTitle` AS `job.jobTitle`, `job`.`company` AS `job.company`, `job`.`location` AS `job.location`, `job`.`jobType` AS `job.jobType`, `job`.`experienceLevel` AS `job.experienceLevel`, `job`.`description` AS `job.description`, `job`.`postingUrl` AS `job.postingUrl`, `job`.`postedDate` AS `job.postedDate`, `job`.`salaryRange` AS `job.salaryRange`, `job`.`companyLogo` AS `job.companyLogo`, `job`.`expirationDate` AS `job.expirationDate`, `job`.`createdAt` AS `job.createdAt`, `job`.`updatedAt` AS `job.updatedAt` FROM `saved_jobs` AS `SavedJob` LEFT OUTER JOIN `jobs` AS `job` ON `SavedJob`.`jobId` = `job`.`id` WHERE `SavedJob`.`userId` = '00000000-0000-0000-0000-000000000001' ORDER BY `SavedJob`.`savedAt` DESC;[39m
+[0mGET /api/saved-jobs [32m200[0m 46.804 ms - 26[0m
+2026-03-05 22:59:47 [34mdebug[39m: [34mExecuting (default): SELECT `SavedJob`.`id`, `SavedJob`.`userId`, `SavedJob`.`jobId`, `SavedJob`.`applicationStatus`, `SavedJob`.`notes`, `SavedJob`.`reminderDate`, `SavedJob`.`savedAt`, `SavedJob`.`createdAt`, `SavedJob`.`updatedAt`, `job`.`id` AS `job.id`, `job`.`externalJobId` AS `job.externalJobId`, `job`.`sourcePlatform` AS `job.sourcePlatform`, `job`.`jobTitle` AS `job.jobTitle`, `job`.`company` AS `job.company`, `job`.`location` AS `job.location`, `job`.`jobType` AS `job.jobType`, `job`.`experienceLevel` AS `job.experienceLevel`, `job`.`description` AS `job.description`, `job`.`postingUrl` AS `job.postingUrl`, `job`.`postedDate` AS `job.postedDate`, `job`.`salaryRange` AS `job.salaryRange`, `job`.`companyLogo` AS `job.companyLogo`, `job`.`expirationDate` AS `job.expirationDate`, `job`.`createdAt` AS `job.createdAt`, `job`.`updatedAt` AS `job.updatedAt` FROM `saved_jobs` AS `SavedJob` LEFT OUTER JOIN `jobs` AS `job` ON `SavedJob`.`jobId` = `job`.`id` WHERE `SavedJob`.`userId` = '00000000-0000-0000-0000-000000000001' ORDER BY `SavedJob`.`savedAt` DESC;[39m
+[0mGET /api/saved-jobs [36m304[0m 9.007 ms - -[0m
+2026-03-05 22:59:47 [32minfo[39m: [32mJob search request — keywords: [software, engineer, developer, react, typescript], location: [39m
+2026-03-05 22:59:47 [32minfo[39m: [32mFetching Remotive jobs for: software[39m
+2026-03-05 22:59:48 [32minfo[39m: [32mFetching RemoteOK jobs for: software, engineer, developer, react, typescript[39m
+2026-03-05 22:59:48 [32minfo[39m: [32mFetching JSearch (RapidAPI) jobs for: software engineer developer react typescript [39m
+2026-03-05 22:59:48 [32minfo[39m: [32mFetching Glassdoor (RapidAPI) jobs for: software in anywhere[39m
+2026-03-05 22:59:49 [33mwarn[39m: [33mGlassdoor API fetch failed: Request failed with status code 403[39m
+2026-03-05 22:59:49 [33mwarn[39m: [33mJSearch fetch failed: Request failed with status code 403[39m
+[0mGET /api/jobs/search?keywords=software+engineer%2Cdeveloper%2Creact%2Ctypescript&limit=30 [32m200[0m 1802.373 ms - 21599[0m
+2026-03-05 22:59:49 [32minfo[39m: [32mJob search request — keywords: [software, engineer, developer, react, typescript], location: [39m
+2026-03-05 22:59:49 [32minfo[39m: [32mFetching Remotive jobs for: software[39m
+2026-03-05 22:59:49 [32minfo[39m: [32mFetching RemoteOK jobs for: software, engineer, developer, react, typescript[39m
+2026-03-05 22:59:49 [32minfo[39m: [32mFetching JSearch (RapidAPI) jobs for: software engineer developer react typescript [39m
+2026-03-05 22:59:49 [32minfo[39m: [32mFetching Glassdoor (RapidAPI) jobs for: software in anywhere[39m
+2026-03-05 22:59:49 [33mwarn[39m: [33mJSearch fetch failed: Request failed with status code 429[39m
+2026-03-05 22:59:50 [33mwarn[39m: [33mGlassdoor API fetch failed: Request failed with status code 429[39m
+[0mGET /api/jobs/search?keywords=software+engineer%2Cdeveloper%2Creact%2Ctypescript&limit=30 [36m304[0m 1580.728 ms - -[0m
+2026-03-05 23:00:15 [32minfo[39m: [32mJob search request — keywords: [software, egineer], location: remote[39m
+2026-03-05 23:00:15 [32minfo[39m: [32mFetching Remotive jobs for: software[39m
+2026-03-05 23:00:15 [32minfo[39m: [32mFetching RemoteOK jobs for: software, egineer[39m
+2026-03-05 23:00:15 [32minfo[39m: [32mFetching JSearch (RapidAPI) jobs for: software egineer remote[39m
+2026-03-05 23:00:15 [32minfo[39m: [32mFetching Glassdoor (RapidAPI) jobs for: software in remote[39m
+2026-03-05 23:00:20 [33mwarn[39m: [33mJSearch fetch failed: timeout of 5000ms exceeded[39m
+2026-03-05 23:00:20 [33mwarn[39m: [33mGlassdoor API fetch failed: timeout of 5000ms exceeded[39m
+[0mGET /api/jobs/search?keywords=software%2Cegineer&location=remote&limit=30 [32m200[0m 5045.929 ms - 18231[0m
+2026-03-05 23:03:39 [34mdebug[39m: [34mExecuting (default): SELECT `SavedJob`.`id`, `SavedJob`.`userId`, `SavedJob`.`jobId`, `SavedJob`.`applicationStatus`, `SavedJob`.`notes`, `SavedJob`.`reminderDate`, `SavedJob`.`savedAt`, `SavedJob`.`createdAt`, `SavedJob`.`updatedAt`, `job`.`id` AS `job.id`, `job`.`externalJobId` AS `job.externalJobId`, `job`.`sourcePlatform` AS `job.sourcePlatform`, `job`.`jobTitle` AS `job.jobTitle`, `job`.`company` AS `job.company`, `job`.`location` AS `job.location`, `job`.`jobType` AS `job.jobType`, `job`.`experienceLevel` AS `job.experienceLevel`, `job`.`description` AS `job.description`, `job`.`postingUrl` AS `job.postingUrl`, `job`.`postedDate` AS `job.postedDate`, `job`.`salaryRange` AS `job.salaryRange`, `job`.`companyLogo` AS `job.companyLogo`, `job`.`expirationDate` AS `job.expirationDate`, `job`.`createdAt` AS `job.createdAt`, `job`.`updatedAt` AS `job.updatedAt` FROM `saved_jobs` AS `SavedJob` LEFT OUTER JOIN `jobs` AS `job` ON `SavedJob`.`jobId` = `job`.`id` WHERE `SavedJob`.`userId` = '00000000-0000-0000-0000-000000000001' ORDER BY `SavedJob`.`savedAt` DESC;[39m
+[0mGET /api/saved-jobs [36m304[0m 10.582 ms - -[0m
+2026-03-05 23:03:39 [34mdebug[39m: [34mExecuting (default): SELECT `SavedJob`.`id`, `SavedJob`.`userId`, `SavedJob`.`jobId`, `SavedJob`.`applicationStatus`, `SavedJob`.`notes`, `SavedJob`.`reminderDate`, `SavedJob`.`savedAt`, `SavedJob`.`createdAt`, `SavedJob`.`updatedAt`, `job`.`id` AS `job.id`, `job`.`externalJobId` AS `job.externalJobId`, `job`.`sourcePlatform` AS `job.sourcePlatform`, `job`.`jobTitle` AS `job.jobTitle`, `job`.`company` AS `job.company`, `job`.`location` AS `job.location`, `job`.`jobType` AS `job.jobType`, `job`.`experienceLevel` AS `job.experienceLevel`, `job`.`description` AS `job.description`, `job`.`postingUrl` AS `job.postingUrl`, `job`.`postedDate` AS `job.postedDate`, `job`.`salaryRange` AS `job.salaryRange`, `job`.`companyLogo` AS `job.companyLogo`, `job`.`expirationDate` AS `job.expirationDate`, `job`.`createdAt` AS `job.createdAt`, `job`.`updatedAt` AS `job.updatedAt` FROM `saved_jobs` AS `SavedJob` LEFT OUTER JOIN `jobs` AS `job` ON `SavedJob`.`jobId` = `job`.`id` WHERE `SavedJob`.`userId` = '00000000-0000-0000-0000-000000000001' ORDER BY `SavedJob`.`savedAt` DESC;[39m
+[0mGET /api/saved-jobs [36m304[0m 5.535 ms - -[0m
+2026-03-05 23:03:41 [32minfo[39m: [32mJob search request — keywords: [software, engineer, developer, react, typescript], location: [39m
+2026-03-05 23:03:41 [32minfo[39m: [32mFetching Remotive jobs for: software[39m
+2026-03-05 23:03:41 [32minfo[39m: [32mFetching RemoteOK jobs for: software, engineer, developer, react, typescript[39m
+2026-03-05 23:03:41 [32minfo[39m: [32mFetching JSearch (RapidAPI) jobs for: software engineer developer react typescript [39m
+2026-03-05 23:03:41 [32minfo[39m: [32mFetching Glassdoor (RapidAPI) jobs for: software in anywhere[39m
+2026-03-05 23:03:43 [33mwarn[39m: [33mGlassdoor API fetch failed: Request failed with status code 403[39m
+2026-03-05 23:03:44 [33mwarn[39m: [33mJSearch fetch failed: Request failed with status code 403[39m
+[0mGET /api/jobs/search?keywords=software+engineer%2Cdeveloper%2Creact%2Ctypescript&limit=30 [36m304[0m 2786.915 ms - -[0m
+2026-03-05 23:03:44 [32minfo[39m: [32mJob search request — keywords: [software, engineer, developer, react, typescript], location: [39m
+2026-03-05 23:03:44 [32minfo[39m: [32mFetching Remotive jobs for: software[39m
+2026-03-05 23:03:44 [32minfo[39m: [32mFetching RemoteOK jobs for: software, engineer, developer, react, typescript[39m
+2026-03-05 23:03:44 [32minfo[39m: [32mFetching JSearch (RapidAPI) jobs for: software engineer developer react typescript [39m
+2026-03-05 23:03:44 [32minfo[39m: [32mFetching Glassdoor (RapidAPI) jobs for: software in anywhere[39m
+2026-03-05 23:03:44 [33mwarn[39m: [33mJSearch fetch failed: Request failed with status code 429[39m
+2026-03-05 23:03:45 [33mwarn[39m: [33mGlassdoor API fetch failed: Request failed with status code 429[39m
+[0mGET /api/jobs/search?keywords=software+engineer%2Cdeveloper%2Creact%2Ctypescript&limit=30 [36m304[0m 2214.732 ms - -[0m
+2026-03-05 23:03:48 [31merror[39m: [31m[500] Internal Server Error[39m
+2026-03-05 23:03:50 [31merror[39m: [31m[500] Internal Server Error[39m
+2026-03-05 23:03:52 [31merror[39m: [31m[500] Internal Server Error[39m
+2026-03-05 23:03:59 [31merror[39m: [31m[500] Internal Server Error[39m

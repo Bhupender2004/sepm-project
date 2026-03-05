@@ -13,6 +13,11 @@ interface JobCardProps {
 const sourceColorMap: Record<string, string> = {
     Remotive: 'purple',
     RemoteOK: 'cyan',
+    LinkedIn: 'linkedin',
+    Naukri: 'blue',
+    Glassdoor: 'green',
+    Indeed: 'orange',
+    Google: 'red',
 };
 
 const JobCard = ({ job }: JobCardProps) => {

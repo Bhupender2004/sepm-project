@@ -9,7 +9,7 @@ export interface Job {
     postingUrl: string;
     salary?: string;
     companyLogo?: string;
-    source: 'Remotive' | 'RemoteOK' | 'LinkedIn' | 'Naukri';
+    source: 'Remotive' | 'RemoteOK' | 'LinkedIn' | 'Naukri' | 'Google' | 'Indeed' | 'Glassdoor' | string;
     tags: string[];
     matchScore: number;
 }
