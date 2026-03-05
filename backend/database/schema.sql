@@ -201,6 +201,20 @@ CREATE TRIGGER update_saved_jobs_updated_at BEFORE UPDATE ON saved_jobs
 -- VALUES ('Test User', 'test@example.com', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIiIiIiIiI', true);
 
 -- ================================================
+-- GUEST USER (required for no-auth / demo mode)
+-- The backend uses this fixed UUID when no JWT is provided.
+-- DO NOT DELETE this row.
+-- ================================================
+INSERT INTO users (id, full_name, email, password_hash, email_verified)
+VALUES (
+    '00000000-0000-0000-0000-000000000001',
+    'Guest User',
+    'guest@localhost',
+    '$2a$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    true
+) ON CONFLICT (id) DO NOTHING;
+
+-- ================================================
 -- VIEWS (Optional - for common queries)
 -- ================================================
 

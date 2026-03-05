@@ -10,29 +10,9 @@ const router = Router();
 // All analysis routes require authentication
 router.use(authenticate);
 
-// POST /api/analyses - Create new analysis
-router.post(
-    '/',
-    validate(
-        Joi.object({
-            resumeId: Joi.string().uuid().required(),
-            jobDescriptionId: Joi.string().uuid().required(),
-        })
-    ),
-    analysisController.createAnalysis
-);
+// ─── Job Description routes (MUST be before /:id to avoid conflict) ────────
 
-// GET /api/analyses - Get all analyses
-router.get('/', analysisController.getAnalyses);
-
-// GET /api/analyses/:id - Get single analysis
-router.get('/:id', analysisController.getAnalysisById);
-
-// DELETE /api/analyses/:id - Delete analysis
-router.delete('/:id', analysisController.deleteAnalysis);
-
-// Job Description routes
-// POST /api/analyses/job-descriptions - Create JD
+// POST /api/analyses/job-descriptions
 router.post(
     '/job-descriptions',
     validate(
@@ -45,13 +25,13 @@ router.post(
     jobDescriptionController.createJobDescription
 );
 
-// GET /api/analyses/job-descriptions - Get all JDs
+// GET /api/analyses/job-descriptions
 router.get('/job-descriptions', jobDescriptionController.getJobDescriptions);
 
-// GET /api/analyses/job-descriptions/:id - Get single JD
+// GET /api/analyses/job-descriptions/:id
 router.get('/job-descriptions/:id', jobDescriptionController.getJobDescriptionById);
 
-// PATCH /api/analyses/job-descriptions/:id - Update JD
+// PATCH /api/analyses/job-descriptions/:id
 router.patch(
     '/job-descriptions/:id',
     validate(
@@ -64,7 +44,30 @@ router.patch(
     jobDescriptionController.updateJobDescription
 );
 
-// DELETE /api/analyses/job-descriptions/:id - Delete JD
+// DELETE /api/analyses/job-descriptions/:id
 router.delete('/job-descriptions/:id', jobDescriptionController.deleteJobDescription);
+
+// ─── Analysis routes ─────────────────────────────────────────────────────────
+
+// POST /api/analyses
+router.post(
+    '/',
+    validate(
+        Joi.object({
+            resumeId: Joi.string().uuid().required(),
+            jobDescriptionId: Joi.string().uuid().required(),
+        })
+    ),
+    analysisController.createAnalysis
+);
+
+// GET /api/analyses
+router.get('/', analysisController.getAnalyses);
+
+// GET /api/analyses/:id
+router.get('/:id', analysisController.getAnalysisById);
+
+// DELETE /api/analyses/:id
+router.delete('/:id', analysisController.deleteAnalysis);
 
 export default router;

@@ -28,32 +28,23 @@ export class AuthService {
         // Hash password
         const passwordHash = await User.hashPassword(password);
 
-        // Generate email verification token
-        const emailVerificationToken = uuidv4();
-        const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-        // Create user
+        // Create user (auto-verified since email service is not configured)
         const user = await User.create({
             fullName,
             email,
             passwordHash,
-            emailVerificationToken,
-            emailVerificationExpires,
-            emailVerified: false,
+            emailVerified: true,
         });
-
-        // TODO: Send verification email
-        // await emailService.sendVerificationEmail(email, emailVerificationToken);
 
         return {
             userId: user.id,
             email: user.email,
-            emailVerificationSent: true,
+            emailVerificationSent: false,
         };
     }
 
     async login(data: LoginData) {
-        const { email, password, rememberMe } = data;
+        const { email, password, rememberMe: _rememberMe } = data;
 
         // Find user
         const user = await User.findOne({ where: { email } });
@@ -61,9 +52,9 @@ export class AuthService {
             throw new UnauthorizedError('Invalid credentials');
         }
 
-        // Check if email is verified
+        // Check if email is verified (always true in dev since we auto-verify)
         if (!user.emailVerified) {
-            throw new UnauthorizedError('Please verify your email before logging in');
+            throw new UnauthorizedError('Account not verified. Please contact support.');
         }
 
         // Verify password
@@ -182,6 +173,32 @@ export class AuthService {
             message: 'Password reset successfully',
         };
     }
+    async refreshToken(token: string) {
+        try {
+            const { verifyToken, generateAccessToken } = await import('../utils/jwt.util');
+            const decoded = verifyToken(token);
+
+            // Verify user still exists and is active
+            const user = await User.findByPk(decoded.userId, {
+                attributes: ['id', 'email', 'emailVerified', 'deletedAt'],
+            });
+
+            if (!user || !user.emailVerified) {
+                throw new UnauthorizedError('User account is not active');
+            }
+
+            // Issue new access token
+            const accessToken = generateAccessToken({
+                userId: decoded.userId,
+                email: decoded.email,
+            });
+
+            return { accessToken, expiresIn: 3600 };
+        } catch (error) {
+            throw new UnauthorizedError('Invalid or expired refresh token');
+        }
+    }
 }
 
 export default new AuthService();
+

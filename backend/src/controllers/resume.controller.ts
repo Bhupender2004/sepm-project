@@ -2,17 +2,18 @@ import { Request, Response, NextFunction } from 'express';
 import resumeService from '../services/resume.service';
 
 export class ResumeController {
-    async uploadResume(req: Request, res: Response, next: NextFunction) {
+    async uploadResume(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.user!.userId;
             const file = req.file;
             const { label } = req.body;
 
             if (!file) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     message: 'No file uploaded',
                 });
+                return;
             }
 
             const resume = await resumeService.uploadResume(userId, file, label);

@@ -1,23 +1,26 @@
 import multer from 'multer';
 import path from 'path';
-import { Request } from 'express';
 import config from '../config/env';
 import { v4 as uuidv4 } from 'uuid';
 import { ValidationError } from '../utils/errors.util';
 
 // Configure storage
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: (_req, _file, cb) => {
         cb(null, config.upload.uploadDir);
     },
-    filename: (req, file, cb) => {
+    filename: (_req, file, cb) => {
         const uniqueName = `${uuidv4()}${path.extname(file.originalname)}`;
         cb(null, uniqueName);
     },
 });
 
-// File filter
-const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+// File filter — only PDF and DOCX
+const fileFilter = (
+    _req: Express.Request,
+    file: Express.Multer.File,
+    cb: multer.FileFilterCallback
+) => {
     const allowedTypes = [
         'application/pdf',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -35,7 +38,7 @@ export const upload = multer({
     storage,
     fileFilter,
     limits: {
-        fileSize: config.upload.maxFileSize, // 5MB
+        fileSize: config.upload.maxFileSize, // 5MB default
     },
 });
 

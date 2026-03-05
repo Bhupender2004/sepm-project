@@ -7,16 +7,15 @@ export const errorHandler = (
     err: Error | AppError,
     req: Request,
     res: Response,
-    next: NextFunction
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _next: NextFunction
 ) => {
     let statusCode = 500;
     let message = 'Internal Server Error';
-    let isOperational = false;
 
     if (err instanceof AppError) {
         statusCode = err.statusCode;
         message = err.message;
-        isOperational = err.isOperational;
     }
 
     // Log error
@@ -41,7 +40,8 @@ export const errorHandler = (
 export const notFoundHandler = (
     req: Request,
     res: Response,
-    next: NextFunction
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _next: NextFunction
 ) => {
     res.status(404).json({
         success: false,

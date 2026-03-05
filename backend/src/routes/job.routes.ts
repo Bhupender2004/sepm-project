@@ -1,14 +1,12 @@
 import { Router } from 'express';
-import { authenticate } from '../middleware/auth.middleware';
+import jobSearchController from '../controllers/job-search.controller';
 
 const router = Router();
 
-// All job routes require authentication
-router.use(authenticate);
+// GET /api/jobs/search?keywords=react,typescript&location=remote&limit=20
+router.get('/search', (req, res) => jobSearchController.searchJobs(req, res));
 
-// GET /api/jobs/search
-router.get('/search', (req, res) => {
-    res.json({ success: true, message: 'Job routes - coming soon' });
-});
+// POST /api/jobs/search-from-resume  { skills: string[], location?: string }
+router.post('/search-from-resume', (req, res) => jobSearchController.searchJobsFromResume(req, res));
 
 export default router;

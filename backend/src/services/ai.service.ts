@@ -1,21 +1,54 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
 import config from '../config/env';
 import logger from '../utils/logger.util';
 
+const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1/chat/completions';
+
 class AIService {
-    private genAI: GoogleGenerativeAI;
-    private model: any;
+  /**
+   * Send a prompt to OpenRouter and return the text response.
+   */
+  private async chat(prompt: string): Promise<string> {
+    const response = await axios.post(
+      OPENROUTER_BASE_URL,
+      {
+        model: config.openrouter.model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.2,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${config.openrouter.apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://resumeai.app',
+          'X-Title': 'ResumeAI',
+        },
+        timeout: 60000, // 60s timeout
+      }
+    );
 
-    constructor() {
-        this.genAI = new GoogleGenerativeAI(config.gemini.apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
-    }
+    const content = response.data?.choices?.[0]?.message?.content;
+    if (!content) throw new Error('Empty response from OpenRouter');
+    return content;
+  }
 
-    /**
-     * Parse resume text and extract structured information
-     */
-    async parseResume(resumeText: string): Promise<any> {
-        const prompt = `
+  /**
+   * Strip markdown code fences that AI models sometimes wrap JSON in,
+   * e.g. ```json { ... } ``` → { ... }
+   */
+  private extractJSON(text: string): string | null {
+    const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (fenced) return fenced[1].trim();
+
+    const raw = text.match(/\{[\s\S]*\}/);
+    return raw ? raw[0] : null;
+  }
+
+  /**
+   * Parse resume text and extract structured information
+   */
+  async parseResume(resumeText: string): Promise<any> {
+    const prompt = `
 You are a resume parser. Extract the following information from the resume text and return it as a JSON object:
 
 {
@@ -52,32 +85,25 @@ You are a resume parser. Extract the following information from the resume text 
 Resume text:
 ${resumeText}
 
-Return ONLY the JSON object, no additional text.
+Return ONLY the JSON object, no additional text or markdown.
 `;
 
-        try {
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
-
-            // Extract JSON from response
-            const jsonMatch = text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[0]);
-            }
-
-            throw new Error('Failed to parse AI response');
-        } catch (error) {
-            logger.error('AI Resume Parsing Error:', error);
-            throw error;
-        }
+    try {
+      const text = await this.chat(prompt);
+      const jsonStr = this.extractJSON(text);
+      if (jsonStr) return JSON.parse(jsonStr);
+      throw new Error('Failed to parse AI response');
+    } catch (error) {
+      logger.error('AI Resume Parsing Error:', error);
+      throw error;
     }
+  }
 
-    /**
-     * Parse job description and extract requirements
-     */
-    async parseJobDescription(jdText: string): Promise<any> {
-        const prompt = `
+  /**
+   * Parse job description and extract requirements
+   */
+  async parseJobDescription(jdText: string): Promise<any> {
+    const prompt = `
 You are a job description analyzer. Extract the following information from the job description and return it as a JSON object:
 
 {
@@ -92,31 +118,25 @@ You are a job description analyzer. Extract the following information from the j
 Job Description:
 ${jdText}
 
-Return ONLY the JSON object, no additional text.
+Return ONLY the JSON object, no additional text or markdown.
 `;
 
-        try {
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
-
-            const jsonMatch = text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[0]);
-            }
-
-            throw new Error('Failed to parse AI response');
-        } catch (error) {
-            logger.error('AI JD Parsing Error:', error);
-            throw error;
-        }
+    try {
+      const text = await this.chat(prompt);
+      const jsonStr = this.extractJSON(text);
+      if (jsonStr) return JSON.parse(jsonStr);
+      throw new Error('Failed to parse AI response');
+    } catch (error) {
+      logger.error('AI JD Parsing Error:', error);
+      throw error;
     }
+  }
 
-    /**
-     * Analyze resume against job description
-     */
-    async analyzeMatch(resumeData: any, jdData: any, resumeText: string, jdText: string): Promise<any> {
-        const prompt = `
+  /**
+   * Analyze resume against job description
+   */
+  async analyzeMatch(resumeData: any, jdData: any, _resumeText: string, _jdText: string): Promise<any> {
+    const prompt = `
 You are an expert resume analyzer. Compare the resume against the job description and provide a detailed analysis.
 
 Resume Skills: ${JSON.stringify(resumeData.skills)}
@@ -151,40 +171,34 @@ Provide analysis in this JSON format:
   },
   "keywordSuggestions": [
     {
-      "keyword": "Kubernetes",
+      "keyword": "React",
       "priority": "high",
       "suggestedSection": "Skills",
-      "exampleUsage": "Orchestrated containerized applications using Kubernetes",
-      "importanceScore": 95
+      "exampleUsage": "Built responsive UIs using React.js",
+      "importanceScore": 90
     }
   ],
   "atsScore": 72,
   "recommendations": [
-    "Add Kubernetes to your skills section",
-    "Highlight cloud architecture experience"
+    "Add React to your skills section",
+    "Highlight any cloud experience"
   ],
-  "summary": "Your resume shows strong technical skills and relevant experience..."
+  "summary": "Your resume shows strong technical skills..."
 }
 
-Return ONLY the JSON object, no additional text.
+Return ONLY the JSON object, no additional text or markdown.
 `;
 
-        try {
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
-
-            const jsonMatch = text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[0]);
-            }
-
-            throw new Error('Failed to parse AI response');
-        } catch (error) {
-            logger.error('AI Analysis Error:', error);
-            throw error;
-        }
+    try {
+      const text = await this.chat(prompt);
+      const jsonStr = this.extractJSON(text);
+      if (jsonStr) return JSON.parse(jsonStr);
+      throw new Error('Failed to parse AI response');
+    } catch (error) {
+      logger.error('AI Analysis Error:', error);
+      throw error;
     }
+  }
 }
 
 export default new AIService();

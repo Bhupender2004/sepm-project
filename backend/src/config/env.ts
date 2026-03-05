@@ -13,18 +13,18 @@ interface Config {
         user: string;
         password: string;
     };
-    redis: {
-        url: string;
-        host: string;
-        port: number;
-    };
+
     jwt: {
         secret: string;
         expiresIn: string;
         refreshExpiresIn: string;
     };
-    gemini: {
+    openrouter: {
         apiKey: string;
+        model: string;
+    };
+    rapidApi: {
+        key: string;
     };
     email: {
         host: string;
@@ -57,18 +57,18 @@ const config: Config = {
         user: process.env.DB_USER || 'postgres',
         password: process.env.DB_PASSWORD || '',
     },
-    redis: {
-        url: process.env.REDIS_URL || 'redis://localhost:6379',
-        host: process.env.REDIS_HOST || 'localhost',
-        port: parseInt(process.env.REDIS_PORT || '6379', 10),
-    },
+
     jwt: {
         secret: process.env.JWT_SECRET || 'your-secret-key',
         expiresIn: process.env.JWT_EXPIRES_IN || '1h',
         refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
     },
-    gemini: {
-        apiKey: process.env.GEMINI_API_KEY || '',
+    openrouter: {
+        apiKey: process.env.OPENROUTER_API_KEY || '',
+        model: process.env.OPENROUTER_MODEL || 'deepseek/deepseek-r1:free',
+    },
+    rapidApi: {
+        key: process.env.RAPIDAPI_KEY || '',
     },
     email: {
         host: process.env.EMAIL_HOST || 'smtp.gmail.com',

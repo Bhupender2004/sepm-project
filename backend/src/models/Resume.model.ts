@@ -69,7 +69,7 @@ Resume.init(
             allowNull: false,
         },
         parsedSections: {
-            type: DataTypes.JSONB,
+            type: DataTypes.JSON,
             allowNull: false,
             defaultValue: {
                 contact: {},

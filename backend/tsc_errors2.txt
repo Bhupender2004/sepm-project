@@ -1,0 +1,14 @@
+﻿src/controllers/auth.controller.ts(75,18): error TS6133: 'req' is declared but its value is never read.
+src/middleware/auth.middleware.ts(16,5): error TS6133: 'res' is declared but its value is never read.
+src/middleware/auth.middleware.ts(42,5): error TS6133: 'res' is declared but its value is never read.
+src/middleware/upload.middleware.ts(10,19): error TS6133: 'req' is declared but its value is never read.
+src/middleware/upload.middleware.ts(10,24): error TS6133: 'file' is declared but its value is never read.
+src/middleware/upload.middleware.ts(13,16): error TS6133: 'req' is declared but its value is never read.
+src/middleware/upload.middleware.ts(20,21): error TS6133: 'req' is declared but its value is never read.
+src/middleware/validation.middleware.ts(6,27): error TS6133: 'res' is declared but its value is never read.
+src/routes/job.routes.ts(10,24): error TS6133: 'req' is declared but its value is never read.
+src/routes/user.routes.ts(10,20): error TS6133: 'req' is declared but its value is never read.
+src/services/ai.service.ts(118,54): error TS6133: 'resumeText' is declared but its value is never read.
+src/services/ai.service.ts(118,74): error TS6133: 'jdText' is declared but its value is never read.
+src/services/document-parser.service.ts(2,22): error TS7016: Could not find a declaration file for module 'pdf-parse'. 'C:/Users/Bhupender Yadav/Desktop/spem-project/backend/node_modules/pdf-parse/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/pdf-parse` if it exists or add a new declaration (.d.ts) file containing `declare module 'pdf-parse';`

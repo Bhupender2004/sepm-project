@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { type AxiosInstance, type AxiosError } from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -30,11 +30,11 @@ class ApiClient {
             (response) => response,
             async (error: AxiosError<any>) => {
                 if (error.response?.status === 401) {
-                    // Token expired, logout user
+                    // Token expired, clear storage and go to home
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
                     localStorage.removeItem('user');
-                    window.location.href = '/login';
+                    window.location.href = '/';
                 }
                 return Promise.reject(error);
             }

@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { ValidationError } from '../utils/errors.util';
 
 export const validate = (schema: Joi.ObjectSchema) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: Request, _res: Response, next: NextFunction) => {
         const { error, value } = schema.validate(req.body, {
             abortEarly: false,
             stripUnknown: true,
@@ -45,13 +45,14 @@ export const loginSchema = Joi.object({
 });
 
 export const updateProfileSchema = Joi.object({
-    fullName: Joi.string().min(2).max(100).optional(),
+    fullName: Joi.string().min(2).max(100).allow('').optional(),
     phone: Joi.string()
         .pattern(/^\+?[1-9]\d{1,14}$/)
+        .allow('')
         .optional(),
-    location: Joi.string().max(200).optional(),
-    linkedinUrl: Joi.string().uri().optional(),
-    portfolioUrl: Joi.string().uri().optional(),
+    location: Joi.string().max(200).allow('').optional(),
+    linkedinUrl: Joi.string().uri().allow('').optional(),
+    portfolioUrl: Joi.string().uri().allow('').optional(),
 });
 
 export const changePasswordSchema = Joi.object({
@@ -59,11 +60,11 @@ export const changePasswordSchema = Joi.object({
     newPassword: Joi.string()
         .min(8)
         .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
-        .required(),
-    confirmNewPassword: Joi.string()
-        .valid(Joi.ref('newPassword'))
         .required()
         .messages({
-            'any.only': 'Passwords must match',
+            'string.pattern.base':
+                'Password must contain at least one uppercase letter, one lowercase letter, and one number',
         }),
+    // confirmNewPassword is validated client-side; not required server-side
+    confirmNewPassword: Joi.string().optional(),
 });

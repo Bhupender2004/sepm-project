@@ -2,25 +2,60 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
 import config from './config/env';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 
-// Import routes
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import resumeRoutes from './routes/resume.routes';
 import analysisRoutes from './routes/analysis.routes';
 import jobRoutes from './routes/job.routes';
+import publicRoutes from './routes/public.routes';
+import savedJobRoutes from './routes/saved-job.routes';
+
+
 
 const app: Application = express();
 
-// Security middleware
+// ── Rate limiters ──────────────────────────────────────────────────────────────
+// Global limiter applied to all /api routes
+const globalLimiter = rateLimit({
+    windowMs: config.rateLimit.windowMs,
+    max: config.rateLimit.maxRequests,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many requests, please try again later.' },
+});
+
+// Stricter limiter for auth routes (prevents brute-force)
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many auth attempts, please try again later.' },
+});
+
+// ── Security middleware ────────────────────────────────────────────────────────
 app.use(helmet());
 
-// CORS configuration
+// CORS configuration — supports multiple origins (comma-separated FRONTEND_URL)
+const allowedOrigins = config.frontendUrl
+    .split(',')
+    .map((url) => url.trim())
+    .filter(Boolean);
+
 app.use(
     cors({
-        origin: config.frontendUrl,
+        origin: (origin, callback) => {
+            // Allow requests with no origin (e.g. mobile apps, curl)
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error(`CORS: origin '${origin}' not allowed`));
+            }
+        },
         credentials: true,
     })
 );
@@ -36,7 +71,7 @@ if (config.nodeEnv === 'development') {
     app.use(morgan('combined'));
 }
 
-// Health check endpoint
+// ── Health check (no rate limit) ───────────────────────────────────────────────
 app.get('/health', (_req, res) => {
     res.status(200).json({
         success: true,
@@ -45,17 +80,19 @@ app.get('/health', (_req, res) => {
     });
 });
 
-// API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/resumes', resumeRoutes);
-app.use('/api/analyses', analysisRoutes);
-app.use('/api/jobs', jobRoutes);
+// ── API routes (with rate limiting) ───────────────────────────────────────────
+app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/users', globalLimiter, userRoutes);
+app.use('/api/resumes', globalLimiter, resumeRoutes);
+app.use('/api/analyses', globalLimiter, analysisRoutes);
+app.use('/api/jobs', globalLimiter, jobRoutes);
+app.use('/api/public', globalLimiter, publicRoutes);
+app.use('/api/saved-jobs', globalLimiter, savedJobRoutes);
 
-// 404 handler
+
+
+// ── 404 & error handler ────────────────────────────────────────────────────────
 app.use(notFoundHandler);
-
-// Global error handler
 app.use(errorHandler);
 
 export default app;

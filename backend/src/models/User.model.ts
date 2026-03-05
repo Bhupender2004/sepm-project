@@ -122,7 +122,7 @@ User.init(
             allowNull: true,
         },
         preferences: {
-            type: DataTypes.JSONB,
+            type: DataTypes.JSON,
             allowNull: true,
             defaultValue: {
                 emailNotifications: true,

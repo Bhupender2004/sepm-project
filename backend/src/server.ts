@@ -1,20 +1,26 @@
 import app from './app';
 import config from './config/env';
 import { connectDatabase } from './config/database';
-import { connectRedis } from './config/redis';
+
 import logger from './utils/logger.util';
+import { seedGuestUser } from './utils/seed-guest';
+import './models'; // Initialize models and associations
 
 const startServer = async () => {
     try {
+        // Guard: refuse to start with the default insecure JWT secret
+        if (config.jwt.secret.startsWith('your-super-secret')) {
+            logger.error('❌ JWT_SECRET is still set to the default placeholder. Set a strong secret in .env before running.');
+            process.exit(1);
+        }
+
         // Connect to database
         await connectDatabase();
 
-        // Connect to Redis
-        try {
-            await connectRedis();
-        } catch (error) {
-            logger.warn('⚠️  Redis connection failed, continuing without caching');
-        }
+        // Seed the shared guest user so saved_jobs FK never fails in no-auth mode
+        await seedGuestUser();
+
+
 
         // Start server
         const PORT = config.port;

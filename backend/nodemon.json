@@ -1,10 +1,10 @@
 {
-    "ts-node": {
-        "require": [
-            "tsconfig-paths/register"
-        ],
-        "compilerOptions": {
-            "module": "commonjs"
-        }
-    }
+    "watch": [
+        "src"
+    ],
+    "ext": "ts,json",
+    "ignore": [
+        "dist",
+        "node_modules"
+    ]
 }

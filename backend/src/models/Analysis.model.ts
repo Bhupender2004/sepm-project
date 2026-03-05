@@ -79,9 +79,12 @@ Analysis.init(
             onDelete: 'CASCADE',
         },
         status: {
-            type: DataTypes.ENUM('processing', 'completed', 'failed'),
+            type: DataTypes.STRING,
             defaultValue: 'processing',
             allowNull: false,
+            validate: {
+                isIn: [['processing', 'completed', 'failed']],
+            },
         },
         overallScore: {
             type: DataTypes.INTEGER,
@@ -92,7 +95,7 @@ Analysis.init(
             },
         },
         categoryScores: {
-            type: DataTypes.JSONB,
+            type: DataTypes.JSON,
             defaultValue: {
                 technicalSkills: 0,
                 softSkills: 0,
@@ -102,7 +105,7 @@ Analysis.init(
             },
         },
         matchedElements: {
-            type: DataTypes.JSONB,
+            type: DataTypes.JSON,
             defaultValue: {
                 skills: [],
                 experience: [],
@@ -111,7 +114,7 @@ Analysis.init(
             },
         },
         missingElements: {
-            type: DataTypes.JSONB,
+            type: DataTypes.JSON,
             defaultValue: {
                 skills: [],
                 experience: [],
@@ -119,7 +122,7 @@ Analysis.init(
             },
         },
         keywordSuggestions: {
-            type: DataTypes.JSONB,
+            type: DataTypes.JSON,
             defaultValue: [],
         },
         atsScore: {
@@ -131,7 +134,7 @@ Analysis.init(
             },
         },
         recommendations: {
-            type: DataTypes.ARRAY(DataTypes.TEXT),
+            type: DataTypes.JSON,
             defaultValue: [],
         },
         summary: {

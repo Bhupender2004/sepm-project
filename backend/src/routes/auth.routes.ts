@@ -41,7 +41,19 @@ router.post(
     authController.resetPassword
 );
 
+// POST /api/auth/refresh-token
+router.post(
+    '/refresh-token',
+    validate(
+        Joi.object({
+            refreshToken: Joi.string().required(),
+        })
+    ),
+    authController.refreshToken
+);
+
 // POST /api/auth/logout
 router.post('/logout', authController.logout);
 
 export default router;
+
