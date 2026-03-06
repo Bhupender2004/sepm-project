@@ -165,3 +165,80 @@
 2026-03-05 23:03:50 [31merror[39m: [31m[500] Internal Server Error[39m
 2026-03-05 23:03:52 [31merror[39m: [31m[500] Internal Server Error[39m
 2026-03-05 23:03:59 [31merror[39m: [31m[500] Internal Server Error[39m
+2026-03-05 23:08:37 [31merror[39m: [31m[500] Internal Server Error[39m
+2026-03-05 23:09:18 [34mdebug[39m: [34mExecuting (84c32de1-1c15-4b35-b644-c3faba648c48): BEGIN DEFERRED TRANSACTION;[39m
+2026-03-05 23:09:18 [34mdebug[39m: [34mExecuting (84c32de1-1c15-4b35-b644-c3faba648c48): SELECT `id`, `externalJobId`, `sourcePlatform`, `jobTitle`, `company`, `location`, `jobType`, `experienceLevel`, `description`, `postingUrl`, `postedDate`, `salaryRange`, `companyLogo`, `expirationDate`, `createdAt`, `updatedAt` FROM `jobs` AS `Job` WHERE `Job`.`externalJobId` = 'g123' AND `Job`.`sourcePlatform` = 'Glassdoor' LIMIT 1;[39m
+2026-03-05 23:09:18 [34mdebug[39m: [34mExecuting (84c32de1-1c15-4b35-b644-c3faba648c48): COMMIT;[39m
+2026-03-05 23:09:18 [31merror[39m: [31m[500] Internal Server Error[39m
+[0mPOST /api/saved-jobs [31m500[0m 15.625 ms - 1390[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node --transpile-only -r tsconfig-paths/register src/server.ts`[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT 1+1 AS result[39m
+2026-03-05 23:12:01 [32minfo[39m: [32m✅ Database connection established successfully[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='users';[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`users`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_1`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_2`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='resumes';[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`resumes`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_resumes_1`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='job_descriptions';[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`job_descriptions`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_job_descriptions_1`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='analyses';[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`analyses`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_analyses_1`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='jobs';[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`jobs`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_1`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_2`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_3`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`jobs_external_job_id_source_platform`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='saved_jobs';[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`saved_jobs`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_1`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_2`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_3`)[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`saved_jobs_user_id_job_id`)[39m
+2026-03-05 23:12:01 [32minfo[39m: [32m✅ Database synchronized[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (80c8c98e-2189-413c-b7ea-f1fb1e6e46eb): BEGIN DEFERRED TRANSACTION;[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (80c8c98e-2189-413c-b7ea-f1fb1e6e46eb): SELECT `id`, `fullName`, `email`, `passwordHash`, `emailVerified`, `emailVerificationToken`, `emailVerificationExpires`, `passwordResetToken`, `passwordResetExpires`, `profilePicture`, `phone`, `location`, `linkedinUrl`, `portfolioUrl`, `preferences`, `lastLoginAt`, `deletedAt`, `createdAt`, `updatedAt` FROM `users` AS `User` WHERE (`User`.`deletedAt` IS NULL AND `User`.`id` = '00000000-0000-0000-0000-000000000001');[39m
+2026-03-05 23:12:01 [34mdebug[39m: [34mExecuting (80c8c98e-2189-413c-b7ea-f1fb1e6e46eb): COMMIT;[39m
+2026-03-05 23:12:01 [31merror[39m: [31mUncaught Exception: listen EADDRINUSE: address already in use :::5000[39m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `ts-node --transpile-only -r tsconfig-paths/register src/server.ts`[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT 1+1 AS result[39m
+2026-03-05 23:15:10 [32minfo[39m: [32m✅ Database connection established successfully[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='users';[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`users`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_1`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_users_2`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='resumes';[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`resumes`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_resumes_1`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='job_descriptions';[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`job_descriptions`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_job_descriptions_1`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='analyses';[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`analyses`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_analyses_1`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='jobs';[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`jobs`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_1`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_2`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_jobs_3`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`jobs_external_job_id_source_platform`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): SELECT name FROM sqlite_master WHERE type='table' AND name='saved_jobs';[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_LIST(`saved_jobs`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_1`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_2`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`sqlite_autoindex_saved_jobs_3`)[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (default): PRAGMA INDEX_INFO(`saved_jobs_user_id_job_id`)[39m
+2026-03-05 23:15:10 [32minfo[39m: [32m✅ Database synchronized[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (809b6374-246a-46a5-8bb1-3748dd7d1e7e): BEGIN DEFERRED TRANSACTION;[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (809b6374-246a-46a5-8bb1-3748dd7d1e7e): SELECT `id`, `fullName`, `email`, `passwordHash`, `emailVerified`, `emailVerificationToken`, `emailVerificationExpires`, `passwordResetToken`, `passwordResetExpires`, `profilePicture`, `phone`, `location`, `linkedinUrl`, `portfolioUrl`, `preferences`, `lastLoginAt`, `deletedAt`, `createdAt`, `updatedAt` FROM `users` AS `User` WHERE (`User`.`deletedAt` IS NULL AND `User`.`id` = '00000000-0000-0000-0000-000000000001');[39m
+2026-03-05 23:15:10 [34mdebug[39m: [34mExecuting (809b6374-246a-46a5-8bb1-3748dd7d1e7e): COMMIT;[39m
+2026-03-05 23:15:10 [31merror[39m: [31mUncaught Exception: listen EADDRINUSE: address already in use :::5000[39m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+^C

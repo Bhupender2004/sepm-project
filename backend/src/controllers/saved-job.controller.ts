@@ -12,6 +12,7 @@ class SavedJobController {
             const result = await savedJobService.saveJob(userId, req.body);
             res.status(201).json({ success: true, data: result });
         } catch (error) {
+            console.error('Job Save Error (Controller):', error);
             next(error);
         }
     }
