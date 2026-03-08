@@ -90,7 +90,7 @@ const Profile = () => {
     };
 
     return (
-        <Box bg="gray.50" minH="calc(100vh - 64px)">
+        <Box bg="transparent" minH="calc(100vh - 64px)">
             <Section>
                 <Heading size="lg" mb={2}>Profile & Settings</Heading>
                 <Text color="gray.500" mb={8}>Manage your account information and preferences.</Text>

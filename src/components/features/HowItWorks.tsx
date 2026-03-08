@@ -36,7 +36,7 @@ const Step = ({ title, text, icon, stepNumber }: StepProps) => {
 
 export default function HowItWorks() {
     return (
-        <Box bg="gray.50">
+        <Box bg="transparent">
             <Section>
                 <Stack spacing={4} as={Box} textAlign={'center'} mb={16}>
                     <Heading fontSize={'3xl'}>How It Works</Heading>

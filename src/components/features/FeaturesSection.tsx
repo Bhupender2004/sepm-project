@@ -18,9 +18,9 @@ const Feature = ({ title, text, icon }: FeatureProps) => {
                     h={16}
                     align={'center'}
                     justify={'center'}
-                    color={'white'}
+                    color={'#7AAACE'}
                     rounded={'full'}
-                    bg={'gray.100'}
+                    bg={'#E6F0FF'}
                     mb={1}>
                     <Icon as={icon} w={10} h={10} />
                 </Flex>
@@ -33,7 +33,7 @@ const Feature = ({ title, text, icon }: FeatureProps) => {
 
 export default function FeaturesSection() {
     return (
-        <Box p={4} bg="white">
+        <Box p={4} bg="transparent">
             <Section>
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
                     <Feature

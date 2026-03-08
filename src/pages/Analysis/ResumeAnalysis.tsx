@@ -11,13 +11,14 @@ import {
     AlertDescription,
     HStack,
     Icon,
+    Button,
+    Container,
+    Flex,
+    Image,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { FaFileAlt, FaRobot } from 'react-icons/fa';
-import Section from '../../components/layout/Section';
-import CustomCard from '../../components/common/CustomCard';
+import { FiArrowRight, FiPlay, FiFileText, FiList } from 'react-icons/fi';
 import FileUpload from '../../components/features/FileUpload';
-import CustomButton from '../../components/common/CustomButton';
 import Loading from '../../components/common/Loading';
 import { useNavigate } from 'react-router-dom';
 import { analyzeResume, type AnalysisResult } from '../../services/AnalysisService';
@@ -68,90 +69,201 @@ const ResumeAnalysis = () => {
             />
         );
     }
-
     return (
-        <Box bg="gray.50" minH="calc(100vh - 64px)">
-            <Section>
-                <VStack spacing={2} mb={8} align="flex-start">
-                    <Heading size="lg">New Resume Analysis</Heading>
-                    <Text color="gray.500">
-                        Upload your resume and paste a job description to get an AI-powered match score with detailed feedback.
-                    </Text>
-                </VStack>
-
+        <Box bg="transparent" minH="calc(100vh - 64px)">
+            <Container maxW="container.xl">
                 {error && (
-                    <Alert status="error" mb={6} borderRadius="md">
+                    <Alert status="error" mt={6} borderRadius="md">
                         <AlertIcon />
                         <AlertDescription>{error}</AlertDescription>
                     </Alert>
                 )}
 
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-                    {/* Resume Upload Column */}
-                    <CustomCard>
-                        <VStack align="stretch" spacing={4}>
-                            <HStack spacing={3}>
-                                <Icon as={FaFileAlt} color="brand.500" boxSize={5} />
-                                <Heading size="md">1. Upload Resume</Heading>
-                            </HStack>
-                            <Text color="gray.500" fontSize="sm">
-                                Supported formats: PDF, DOCX (max 5MB)
-                            </Text>
-                            <Box py={4}>
-                                <FileUpload onFileSelect={(f) => setFile(f)} />
-                            </Box>
-                            {file && (
-                                <Alert status="success" borderRadius="md" py={2}>
-                                    <AlertIcon />
-                                    <AlertDescription fontSize="sm">
-                                        <strong>{file.name}</strong> ready ({(file.size / 1024).toFixed(0)} KB)
-                                    </AlertDescription>
-                                </Alert>
-                            )}
-                        </VStack>
-                    </CustomCard>
-
-                    {/* Job Description Column */}
-                    <CustomCard>
-                        <VStack align="stretch" spacing={4} h="full">
-                            <HStack spacing={3}>
-                                <Icon as={FaRobot} color="brand.500" boxSize={5} />
-                                <Heading size="md">2. Job Description</Heading>
-                            </HStack>
-                            <Text color="gray.500" fontSize="sm">
-                                Paste the full job description you want to apply for.
-                            </Text>
-                            <Textarea
-                                placeholder="Paste the complete job description here...&#10;&#10;Tip: Include the full description for the most accurate analysis."
-                                h="300px"
-                                resize="vertical"
-                                value={jobDescription}
-                                onChange={(e) => setJobDescription(e.target.value.slice(0, MAX_JD_CHARS))}
-                                borderColor="gray.300"
-                                _focus={{ borderColor: 'brand.500' }}
-                                fontSize="sm"
-                            />
-                            <Text fontSize="xs" color="gray.400" textAlign="right">
-                                {jobDescription.length}/{MAX_JD_CHARS} characters
-                            </Text>
-                        </VStack>
-                    </CustomCard>
-                </SimpleGrid>
-
-                <Box mt={8} textAlign="center">
-                    <CustomButton
-                        size="lg"
-                        w={{ base: 'full', md: '320px' }}
-                        onClick={handleAnalyze}
-                        isDisabled={!file || !jobDescription.trim()}
+                {/* Hero Section */}
+                <Box pt={16} pb={24} textAlign={{ base: "center", md: "left" }}>
+                    <Flex
+                        direction={{ base: 'column', md: 'row' }}
+                        align="center"
+                        justify="space-between"
+                        gap={12}
                     >
-                        🔍 Analyze Resume
-                    </CustomButton>
-                    <Text mt={3} fontSize="sm" color="gray.400">
-                        Powered by Google Gemini AI · Results in ~20 seconds
-                    </Text>
+                        <VStack align={{ base: "center", md: "flex-start" }} spacing={8} maxW="xl">
+                            <Box
+                                bg="#E6F0FF"
+                                color="#7AAACE"
+                                px={4}
+                                py={1.5}
+                                borderRadius="full"
+                                fontSize="sm"
+                                fontWeight="bold"
+                                display="inline-flex"
+                                alignItems="center"
+                            >
+                                <Box w={2} h={2} bg="#7AAACE" borderRadius="full" mr={2} />
+                                AI-Powered Resume Analysis
+                            </Box>
+
+                            <Heading
+                                fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}
+                                fontWeight="800"
+                                lineHeight="1.1"
+                                letterSpacing="tight"
+                                color="gray.900"
+                            >
+                                Analyze Your <br />
+                                Resume <Text as="span" color="#7AAACE">with AI</Text>
+                            </Heading>
+
+                            <Text color="gray.500" fontSize={{ base: "xl", md: "2xl" }} lineHeight="tall" maxW="lg">
+                                Upload your resume and compare it with job descriptions to get an AI-powered match score and improvement suggestions.
+                            </Text>
+
+                            <HStack spacing={4} pt={4} flexWrap="wrap" justify={{ base: "center", md: "flex-start" }}>
+                                <Button
+                                    size="lg"
+                                    bg="#7AAACE"
+                                    color="white"
+                                    _hover={{ bg: "#9CD5FF" }}
+                                    borderRadius="full"
+                                    px={8}
+                                    py={7}
+                                    rightIcon={<Icon as={FiArrowRight} />}
+                                    onClick={() => document.getElementById('upload-section')?.scrollIntoView({ behavior: 'smooth' })}
+                                    boxShadow="md"
+                                >
+                                    Analyze Resume
+                                </Button>
+                                <Button
+                                    size="lg"
+                                    variant="outline"
+                                    bg="white"
+                                    borderColor="gray.200"
+                                    color="gray.800"
+                                    _hover={{ bg: "gray.50" }}
+                                    borderRadius="full"
+                                    px={8}
+                                    py={7}
+                                    leftIcon={<Icon as={FiPlay} />}
+                                >
+                                    View Example
+                                </Button>
+                            </HStack>
+                        </VStack>
+
+                        <Box display={{ base: "none", md: "block" }} flex={1}>
+                            <Image
+                                src="/ai_resume_illustration.png"
+                                alt="AI Resume Analysis Illustration"
+                                w="100%"
+                                maxH="400px"
+                                objectFit="contain"
+                                borderRadius="2xl"
+                                animation="floating 3s ease-in-out infinite"
+                                sx={{
+                                    '@keyframes floating': {
+                                        '0%': { transform: 'translateY(0px)' },
+                                        '50%': { transform: 'translateY(-15px)' },
+                                        '100%': { transform: 'translateY(0px)' }
+                                    }
+                                }}
+                            />
+                        </Box>
+                    </Flex>
                 </Box>
-            </Section>
+
+                {/* Upload Section */}
+                <Box id="upload-section" py={16}>
+                    <VStack spacing={4} mb={12} textAlign="center">
+                        <Heading size="2xl" fontWeight="800" color="gray.900">Get Started in Seconds</Heading>
+                        <Text color="gray.500" fontSize="lg">
+                            Upload your resume and paste the job description to receive instant AI feedback.
+                        </Text>
+                    </VStack>
+
+                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} mb={12}>
+                        {/* Resume Upload Column */}
+                        <Box bg="white" borderRadius="2xl" p={8} boxShadow="sm" border="1px solid" borderColor="gray.100">
+                            <VStack align="stretch" spacing={6}>
+                                <HStack spacing={4}>
+                                    <Flex w={10} h={10} bg="#F0F7FF" borderRadius="full" align="center" justify="center" color="#7AAACE">
+                                        <Icon as={FiFileText} />
+                                    </Flex>
+                                    <Heading size="md" fontWeight="600" color="gray.800">1. Upload Resume</Heading>
+                                </HStack>
+
+                                <Box pt={2}>
+                                    <FileUpload onFileSelect={(f) => setFile(f)} />
+                                </Box>
+
+                                {file && (
+                                    <Alert status="success" borderRadius="md" py={2}>
+                                        <AlertIcon />
+                                        <AlertDescription fontSize="sm">
+                                            <strong>{file.name}</strong> ready ({(file.size / 1024).toFixed(0)} KB)
+                                        </AlertDescription>
+                                    </Alert>
+                                )}
+                            </VStack>
+                        </Box>
+
+                        {/* Job Description Column */}
+                        <Box bg="white" borderRadius="2xl" p={8} boxShadow="sm" border="1px solid" borderColor="gray.100">
+                            <VStack align="stretch" spacing={6} h="full">
+                                <HStack spacing={4}>
+                                    <Flex w={10} h={10} bg="#F0F7FF" borderRadius="full" align="center" justify="center" color="#7AAACE">
+                                        <Icon as={FiList} />
+                                    </Flex>
+                                    <Heading size="md" fontWeight="600" color="gray.800">2. Job Description</Heading>
+                                </HStack>
+
+                                <Box flex={1} position="relative" pt={2}>
+                                    <Textarea
+                                        placeholder="Paste the job description here..."
+                                        h="full"
+                                        minH="240px"
+                                        resize="none"
+                                        value={jobDescription}
+                                        onChange={(e) => setJobDescription(e.target.value.slice(0, MAX_JD_CHARS))}
+                                        borderColor="gray.100"
+                                        bg="#F8FAFC"
+                                        _focus={{
+                                            borderColor: '#7AAACE',
+                                            boxShadow: '0 0 0 1px #7AAACE',
+                                            bg: 'white'
+                                        }}
+                                        fontSize="md"
+                                        borderRadius="xl"
+                                        p={5}
+                                    />
+                                    <Text position="absolute" bottom={4} right={4} fontSize="xs" color="gray.400">
+                                        {jobDescription.length}/{MAX_JD_CHARS}
+                                    </Text>
+                                </Box>
+                            </VStack>
+                        </Box>
+                    </SimpleGrid>
+
+                    <Box mt={4} mb={20} textAlign="center">
+                        <Button
+                            size="lg"
+                            bg="#7AAACE"
+                            color="white"
+                            _hover={{ bg: "#9CD5FF", transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                            px={16}
+                            py={8}
+                            borderRadius="full"
+                            fontSize="xl"
+                            fontWeight="bold"
+                            onClick={handleAnalyze}
+                            isDisabled={!file || !jobDescription.trim()}
+                            isLoading={isAnalyzing}
+                            transition="all 0.2s"
+                        >
+                            Analyze Now
+                        </Button>
+                    </Box>
+                </Box>
+            </Container>
         </Box>
     );
 };

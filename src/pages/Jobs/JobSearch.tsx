@@ -139,7 +139,7 @@ const JobSearch = () => {
     };
 
     return (
-        <Box bg="gray.50" minH="calc(100vh - 64px)">
+        <Box bg="transparent" minH="calc(100vh - 64px)">
             <Section>
                 <Heading mb={2}>Find Matching Jobs</Heading>
                 <Text color="gray.500" mb={6}>

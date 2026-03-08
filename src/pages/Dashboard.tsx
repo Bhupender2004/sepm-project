@@ -49,7 +49,7 @@ const Dashboard = () => {
         : 'gray.300';
 
     return (
-        <Box bg="gray.50" minH="calc(100vh - 64px)">
+        <Box bg="transparent" minH="calc(100vh - 64px)">
             <Section>
                 {/* Header */}
                 <Flex justify="space-between" align="center" mb={8} flexWrap="wrap" gap={4}>

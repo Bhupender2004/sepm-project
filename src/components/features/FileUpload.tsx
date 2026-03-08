@@ -1,6 +1,7 @@
 import { Box, Text, Icon, VStack, Input, useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { FaCloudUploadAlt, FaFileAlt, FaTimes } from 'react-icons/fa';
+import { FaFileAlt, FaTimes } from 'react-icons/fa';
+import { FiUploadCloud } from 'react-icons/fi';
 import CustomButton from '../common/CustomButton';
 
 interface FileUploadProps {
@@ -76,13 +77,19 @@ const FileUpload = ({ onFileSelect, accept = ".pdf,.docx,.doc" }: FileUploadProp
         <Box
             borderWidth="2px"
             borderStyle="dashed"
-            borderColor={isDragOver ? 'brand.500' : 'gray.300'}
-            borderRadius="xl"
-            bg={isDragOver ? 'brand.50' : 'gray.50'}
-            p={10}
+            borderColor={isDragOver ? '#7AAACE' : 'gray.300'}
+            borderRadius="2xl"
+            bg={isDragOver ? '#E6F0FF' : 'white'}
+            p={12}
             textAlign="center"
             cursor="pointer"
-            transition="all 0.2s"
+            transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+            _hover={{
+                borderColor: '#9CD5FF',
+                bg: '#E6F0FF',
+                transform: 'translateY(-2px)',
+                boxShadow: 'md',
+            }}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
@@ -107,14 +114,16 @@ const FileUpload = ({ onFileSelect, accept = ".pdf,.docx,.doc" }: FileUploadProp
                     </CustomButton>
                 </VStack>
             ) : (
-                <VStack spacing={3}>
-                    <Icon as={FaCloudUploadAlt} w={12} h={12} color="gray.400" />
-                    <Text fontWeight="bold" fontSize="lg">
-                        Click or drag resume here
-                    </Text>
-                    <Text color="gray.500" fontSize="sm">
-                        Supports PDF, DOCX (Max 5MB)
-                    </Text>
+                <VStack spacing={4}>
+                    <Icon as={FiUploadCloud} w={14} h={14} color="#7AAACE" transition="color 0.2s" />
+                    <VStack spacing={1}>
+                        <Text fontWeight="bold" fontSize="md" color="gray.800">
+                            Drag and drop your resume here
+                        </Text>
+                        <Text color="gray.400" fontSize="sm">
+                            Supports PDF, DOCX
+                        </Text>
+                    </VStack>
                 </VStack>
             )}
         </Box>

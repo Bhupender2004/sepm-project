@@ -15,7 +15,7 @@ const Landing = () => {
                     left="-10%"
                     w="40%"
                     h="40%"
-                    bgGradient="radial(brand.400, transparent)"
+                    bgGradient="radial(#7AAACE, transparent)"
                     filter="blur(100px)"
                     opacity={0.3}
                     zIndex={-1}
@@ -26,7 +26,7 @@ const Landing = () => {
                     right="-5%"
                     w="30%"
                     h="30%"
-                    bgGradient="radial(accent.400, transparent)"
+                    bgGradient="radial(#9CD5FF, transparent)"
                     filter="blur(80px)"
                     opacity={0.2}
                     zIndex={-1}
@@ -51,8 +51,7 @@ const Landing = () => {
                             Optimize your resume <br />
                             <Text
                                 as={'span'}
-                                bgGradient="linear(to-r, brand.500, accent.500)"
-                                bgClip="text">
+                                color="#7AAACE">
                                 find your dream job
                             </Text>
                         </Heading>
@@ -80,7 +79,7 @@ const Landing = () => {
                                 _hover={{
                                     transform: 'translateY(-2px)',
                                     boxShadow: '2xl',
-                                    bgGradient: 'linear(to-r, brand.600, brand.500)',
+                                    bg: '#9CD5FF',
                                 }}>
                                 Get Started
                             </Button>

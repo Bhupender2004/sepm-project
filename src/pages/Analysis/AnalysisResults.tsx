@@ -6,7 +6,6 @@ import {
     VStack,
     HStack,
     Badge,
-    Progress,
     Tab,
     Tabs,
     TabList,
@@ -24,10 +23,11 @@ import {
     TagLabel,
     Wrap,
     WrapItem,
+    Container,
 } from '@chakra-ui/react';
-import { FaCheckCircle, FaExclamationCircle, FaTimesCircle, FaInfoCircle, FaSearch } from 'react-icons/fa';
+import { FaCheckCircle, FaExclamationCircle, FaTimesCircle, FaInfoCircle, FaSearch, FaLightbulb } from 'react-icons/fa';
+import { FiCheckCircle as FiCheck, FiAlertCircle, FiArrowUpRight } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import Section from '../../components/layout/Section';
 import CustomCard from '../../components/common/CustomCard';
 import CustomButton from '../../components/common/CustomButton';
@@ -36,57 +36,46 @@ import { useNavigate } from 'react-router-dom';
 import { type AnalysisResult, type KeywordSuggestion } from '../../services/AnalysisService';
 
 // ── Score ring chart ──────────────────────────────────────────────────────────
-const getScoreColor = (score: number) => {
-    if (score >= 75) return '#00A86B';
-    if (score >= 50) return '#ECC94B';
-    return '#FC8181';
-};
-
 const ScoreChart = ({ score }: { score: number }) => {
-    const data = [
-        { name: 'Score', value: score },
-        { name: 'Remaining', value: 100 - score },
-    ];
-    const color = getScoreColor(score);
+    const radius = 40;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (score / 100) * circumference;
+
     return (
-        <Box h="200px" position="relative">
-            <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        startAngle={90}
-                        endAngle={-270}
-                        paddingAngle={2}
-                        dataKey="value"
-                    >
-                        <Cell fill={color} />
-                        <Cell fill="#E2E8F0" />
-                    </Pie>
-                    <RechartsTooltip />
-                </PieChart>
-            </ResponsiveContainer>
-            <VStack position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)" spacing={0}>
-                <Text fontSize="4xl" fontWeight="bold" color={color}>{score}%</Text>
-                <Text fontSize="sm" color="gray.500">Match</Text>
+        <Box position="relative" w="200px" h="200px" mx="auto">
+            <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)' }}>
+                {/* Background arc */}
+                <circle
+                    cx="50"
+                    cy="50"
+                    r={radius}
+                    fill="none"
+                    stroke="#F1F5F9"
+                    strokeWidth="8"
+                />
+                {/* Foreground arc layer */}
+                <circle
+                    cx="50"
+                    cy="50"
+                    r={radius}
+                    fill="none"
+                    stroke="#7AAACE"
+                    strokeWidth="8"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={offset}
+                    strokeLinecap="round"
+                    style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
+                />
+                {/* Optional: Add linear gradient to defs and reference it in stroke if needed, utilizing #7AAACE and #9CD5FF for an exact match.
+                    The user's layout has a gradient but requested "flat color #7AAACE" in text. Given the conflict, using #7AAACE as required by their text. */}
+            </svg>
+            <VStack position="absolute" top="0" left="0" w="full" h="full" align="center" justify="center" spacing={0}>
+                <Text fontSize="5xl" fontWeight="bold" color="#7AAACE" lineHeight="1">{score}%</Text>
+                <Text fontSize="sm" color="gray.500" fontWeight="medium">Match</Text>
             </VStack>
         </Box>
     );
 };
-
-// ── Category bar ──────────────────────────────────────────────────────────────
-const CategoryBar = ({ label, value, colorScheme }: { label: string; value: number; colorScheme: string }) => (
-    <Box>
-        <Flex justify="space-between" mb={1}>
-            <Text fontWeight="medium" fontSize="sm">{label}</Text>
-            <Text fontWeight="bold" fontSize="sm" color={`${colorScheme}.600`}>{value}%</Text>
-        </Flex>
-        <Progress value={value} colorScheme={colorScheme} borderRadius="full" size="sm" />
-    </Box>
-);
 
 // ── Priority badge ─────────────────────────────────────────────────────────────
 const priorityColor = (p: string) => {
@@ -101,11 +90,8 @@ const AnalysisResults = () => {
     const [result, setResult] = useState<AnalysisResult | null>(null);
     const [loading, setLoading] = useState(true);
     const [keywords, setKeywords] = useState<(KeywordSuggestion & { status: 'pending' | 'added' | 'rejected' })[]>([]);
-    const [fileName, setFileName] = useState('');
-
     useEffect(() => {
         const raw = sessionStorage.getItem('analysisResult');
-        const name = sessionStorage.getItem('analysisFileName') ?? '';
         if (!raw) {
             setLoading(false);
             return;
@@ -114,7 +100,6 @@ const AnalysisResults = () => {
             const parsed: AnalysisResult = JSON.parse(raw);
             setResult(parsed);
             setKeywords(parsed.keywordSuggestions.map(kw => ({ ...kw, status: 'pending' })));
-            setFileName(name);
         } catch {
             /* ignore */
         }
@@ -125,7 +110,7 @@ const AnalysisResults = () => {
 
     if (!result) {
         return (
-            <Box bg="gray.50" minH="calc(100vh - 64px)">
+            <Box bg="transparent" minH="calc(100vh - 64px)">
                 <Section>
                     <CustomCard textAlign="center" py={16}>
                         <Heading size="md" mb={3}>No Analysis Found</Heading>
@@ -147,59 +132,84 @@ const AnalysisResults = () => {
     const estimatedImprovement = Math.min(10, addedCount * 2);
     const estimatedScore = Math.min(100, result.overallScore + estimatedImprovement);
 
-    const { categoryScores, matchedElements, missingElements, recommendations } = result;
+    const { matchedElements, missingElements, recommendations } = result;
 
     return (
-        <Box bg="gray.50" minH="calc(100vh - 64px)">
-            <Section>
-                {/* Header */}
-                <Flex justify="space-between" align="center" mb={8} flexWrap="wrap" gap={4}>
-                    <Box>
-                        <Heading size="lg">Analysis Results</Heading>
-                        {fileName && <Text color="gray.500" fontSize="sm" mt={1}>📄 {fileName}</Text>}
+        <Box bg="transparent" minH="calc(100vh - 64px)">
+            <Container maxW="container.xl" pt={12}>
+                {/* Header Sequence */}
+                <VStack spacing={3} align="center" textAlign="center" mb={16}>
+                    <Heading size="2xl" fontWeight="800" color="gray.900">AI Analysis Results</Heading>
+                    <Text color="gray.500" fontSize="xl" maxW="2xl">
+                        Your personalized resume feedback powered by artificial intelligence.
+                    </Text>
+                </VStack>
+
+                {/* 3-Card Summary Grid */}
+                <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={10} mb={16}>
+                    {/* Card 1: Score */}
+                    <Box bg="white" borderRadius="2xl" p={10} boxShadow="sm" border="1px solid" borderColor="gray.100" textAlign="center">
+                        <Box mb={8}>
+                            <ScoreChart score={result.overallScore} />
+                        </Box>
+                        <Heading size="lg" fontWeight="800" mb={2} color="gray.900">AI Match Score</Heading>
+                        <Text color="gray.500" fontSize="md">{result.overallScore >= 70 ? 'Good match — room to improve' : 'Moderate match — improvements needed'}</Text>
                     </Box>
-                    <HStack spacing={3}>
-                        <CustomButton
-                            variant="outline"
-                            size="sm"
-                            onClick={() => { sessionStorage.clear(); navigate('/'); }}
-                        >
-                            New Analysis
-                        </CustomButton>
-                        <CustomButton size="sm" onClick={() => navigate('/jobs')}>
-                            <Icon as={FaSearch} mr={2} />
-                            Find Matching Jobs
-                        </CustomButton>
-                    </HStack>
-                </Flex>
 
-                {/* Top row: Score ring + Category scores */}
-                <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={8} mb={8}>
-                    {/* Score ring */}
-                    <CustomCard textAlign="center">
-                        <Heading size="md" mb={4}>Overall Match</Heading>
-                        <ScoreChart score={result.overallScore} />
-                        <HStack justify="center" mt={4} spacing={4}>
-                            <Box textAlign="center">
-                                <Text fontSize="2xl" fontWeight="bold" color="blue.500">{result.atsScore}%</Text>
-                                <Text fontSize="xs" color="gray.500">ATS Score</Text>
+                    {/* Card 2: Skills Match / Missing */}
+                    <Box bg="white" borderRadius="2xl" p={10} boxShadow="sm" border="1px solid" borderColor="gray.100">
+                        <VStack align="stretch" spacing={10}>
+                            <Box>
+                                <HStack spacing={3} mb={5}>
+                                    <Icon as={FiCheck} color="#7AAACE" w={6} h={6} />
+                                    <Heading size="md" fontWeight="bold" color="gray.900">Skills Matched</Heading>
+                                </HStack>
+                                <Wrap spacing={3}>
+                                    {matchedElements.skills.slice(0, 6).map(skill => (
+                                        <WrapItem key={skill}>
+                                            <Badge color="#7AAACE" bg="#E6F0FF" px={4} py={2} borderRadius="full" textTransform="none" fontWeight="600" fontSize="sm">
+                                                {skill}
+                                            </Badge>
+                                        </WrapItem>
+                                    ))}
+                                    {matchedElements.skills.length === 0 && <Text fontSize="sm" color="gray.500">No core skills matched.</Text>}
+                                </Wrap>
                             </Box>
-                        </HStack>
-                        <Text color="gray.600" mt={4} fontSize="sm">{result.summary}</Text>
-                    </CustomCard>
 
-                    {/* Category breakdown */}
-                    <Box gridColumn={{ lg: 'span 2' }}>
-                        <CustomCard h="full">
-                            <Heading size="md" mb={6}>Category Breakdown</Heading>
-                            <VStack spacing={5} align="stretch">
-                                <CategoryBar label="Technical Skills" value={categoryScores.technicalSkills} colorScheme="green" />
-                                <CategoryBar label="Soft Skills" value={categoryScores.softSkills} colorScheme="teal" />
-                                <CategoryBar label="Experience" value={categoryScores.experience} colorScheme="blue" />
-                                <CategoryBar label="Education" value={categoryScores.education} colorScheme="purple" />
-                                <CategoryBar label="Keywords" value={categoryScores.keywords} colorScheme="orange" />
-                            </VStack>
-                        </CustomCard>
+                            <Box>
+                                <HStack spacing={3} mb={5}>
+                                    <Icon as={FiAlertCircle} color="red.500" w={6} h={6} />
+                                    <Heading size="md" fontWeight="bold" color="gray.900">Missing Keywords</Heading>
+                                </HStack>
+                                <Wrap spacing={3}>
+                                    {missingElements.keywords.slice(0, 6).map(kw => (
+                                        <WrapItem key={kw}>
+                                            <Badge color="red.500" bg="red.50" px={4} py={2} borderRadius="full" textTransform="none" fontWeight="600" fontSize="sm">
+                                                {kw}
+                                            </Badge>
+                                        </WrapItem>
+                                    ))}
+                                    {missingElements.keywords.length === 0 && <Text fontSize="sm" color="gray.500">No missing keywords found.</Text>}
+                                </Wrap>
+                            </Box>
+                        </VStack>
+                    </Box>
+
+                    {/* Card 3: Improvement Tips */}
+                    <Box bg="white" borderRadius="2xl" p={10} boxShadow="sm" border="1px solid" borderColor="gray.100">
+                        <HStack spacing={3} mb={8}>
+                            <Icon as={FaLightbulb} color="#7AAACE" w={6} h={6} />
+                            <Heading size="md" fontWeight="bold" color="gray.900">Improvement Tips</Heading>
+                        </HStack>
+                        <VStack align="stretch" spacing={6}>
+                            {recommendations.slice(0, 4).map((tip, idx) => (
+                                <HStack key={idx} align="flex-start" spacing={4}>
+                                    <Icon as={FiArrowUpRight} color="#7AAACE" w={5} h={5} mt={0.5} />
+                                    <Text fontSize="md" color="gray.600" lineHeight="tall">{tip}</Text>
+                                </HStack>
+                            ))}
+                            {recommendations.length === 0 && <Text fontSize="sm" color="gray.500">No additional tips available.</Text>}
+                        </VStack>
                     </Box>
                 </SimpleGrid>
 
@@ -429,7 +439,7 @@ const AnalysisResults = () => {
                         Find Matching Jobs
                     </CustomButton>
                 </Flex>
-            </Section>
+            </Container>
         </Box>
     );
 };

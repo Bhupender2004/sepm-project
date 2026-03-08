@@ -8,9 +8,14 @@ import {
     useColorModeValue,
     useDisclosure,
     Container,
+    HStack,
+    Icon,
+    Circle,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { FiGrid, FiFileText, FiBriefcase, FiBookmark } from 'react-icons/fi';
+import { BsStars } from 'react-icons/bs';
 
 
 export default function Header() {
@@ -55,18 +60,25 @@ export default function Header() {
                         />
                     </Flex>
                     <Flex justify={{ base: 'center', md: 'start' }} alignItems="center">
-                        <Text
-                            textAlign={useDisclosure().isOpen ? 'center' : 'left'}
-                            fontFamily={'heading'}
-                            fontWeight="bold"
-                            fontSize="2xl"
-                            color="brand.600"
-                            _dark={{ color: "white" }}
+                        <HStack
                             as={RouterLink}
                             to="/"
-                            _hover={{ textDecoration: 'none' }}>
-                            ResumeAI
-                        </Text>
+                            spacing={2}
+                            _hover={{ textDecoration: 'none' }}
+                        >
+                            <Circle size="10" bg="#7AAACE" color="white">
+                                <Icon as={BsStars} w={5} h={5} />
+                            </Circle>
+                            <Text
+                                textAlign={useDisclosure().isOpen ? 'center' : 'left'}
+                                fontFamily={'heading'}
+                                fontWeight="bold"
+                                fontSize="2xl"
+                                color="gray.800"
+                            >
+                                ResumeAI
+                            </Text>
+                        </HStack>
                     </Flex>
 
                     <Flex display={{ base: 'none', md: 'flex' }} flex={1} justify="flex-end" mr={10}>
@@ -85,35 +97,48 @@ export default function Header() {
 }
 
 const DesktopNav = () => {
-    const linkColor = useColorModeValue('gray.600', 'gray.200');
-    const linkHoverColor = useColorModeValue('brand.500', 'white');
+    const location = useLocation();
+    const linkColor = 'gray.500';
+    const activeColor = '#7AAACE';
 
     const navItems = [
-        { label: 'Dashboard', href: '/dashboard' },
-        { label: 'Analyze', href: '/' },
-        { label: 'Jobs', href: '/jobs' },
-        { label: 'Saved', href: '/saved-jobs' },
+        { label: 'Dashboard', href: '/dashboard', icon: FiGrid },
+        { label: 'Analyze', href: '/', icon: FiFileText },
+        { label: 'Jobs', href: '/jobs', icon: FiBriefcase },
+        { label: 'Saved', href: '/saved-jobs', icon: FiBookmark },
     ];
 
     return (
-        <Stack direction={'row'} spacing={4}>
-            {navItems.map((navItem) => (
-                <Box key={navItem.label}>
-                    <Text
-                        as={RouterLink}
-                        p={2}
-                        to={navItem.href}
-                        fontSize={'sm'}
-                        fontWeight={500}
-                        color={linkColor}
-                        _hover={{
-                            textDecoration: 'none',
-                            color: linkHoverColor,
-                        }}>
-                        {navItem.label}
-                    </Text>
-                </Box>
-            ))}
+        <Stack direction={'row'} spacing={8}>
+            {navItems.map((navItem) => {
+                const isActive = location.pathname === navItem.href;
+                return (
+                    <Box key={navItem.label} position="relative" height="70px" display="flex" alignItems="center">
+                        <HStack
+                            as={RouterLink}
+                            to={navItem.href}
+                            spacing={2}
+                            color={isActive ? activeColor : linkColor}
+                            _hover={{ color: activeColor }}
+                            fontWeight={isActive ? 600 : 500}
+                        >
+                            <Icon as={navItem.icon} w={4} h={4} />
+                            <Text fontSize={'md'}>{navItem.label}</Text>
+                        </HStack>
+                        {isActive && (
+                            <Box
+                                position="absolute"
+                                bottom={0}
+                                left={0}
+                                right={0}
+                                height="3px"
+                                bg={activeColor}
+                                borderTopRadius="sm"
+                            />
+                        )}
+                    </Box>
+                );
+            })}
         </Stack>
     );
 };
