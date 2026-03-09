@@ -61,6 +61,70 @@ const ResumeAnalysis = () => {
         }
     };
 
+    const handleViewExample = () => {
+        setIsAnalyzing(true);
+        // Simulate a slight delay for realism
+        setTimeout(() => {
+            const mockResult: AnalysisResult = {
+                overallScore: 88,
+                atsScore: 92,
+                summary: "This is a strong candidate for a Senior Frontend Developer role. The resume demonstrates extensive experience with modern web technologies, though it could benefit from more emphasis on cloud infrastructure and CI/CD pipelines.",
+                categoryScores: {
+                    technicalSkills: 90,
+                    softSkills: 85,
+                    experience: 95,
+                    education: 80,
+                    keywords: 88
+                },
+                matchedElements: {
+                    skills: ["React", "TypeScript", "Node.js", "Redux", "GraphQL"],
+                    experience: ["5+ years frontend development", "Led a team of 3 developers", "Performance optimization"],
+                    education: ["Bachelor's in Computer Science"],
+                    keywords: ["Agile", "REST APIs", "WebSockets"]
+                },
+                missingElements: {
+                    skills: ["AWS", "Docker", "Kubernetes"],
+                    experience: ["Mentoring junior developers"],
+                    keywords: ["CI/CD", "Microservices"]
+                },
+                keywordSuggestions: [
+                    {
+                        keyword: "AWS",
+                        priority: "high",
+                        suggestedSection: "Skills",
+                        exampleUsage: "Deployed frontend applications using AWS S3 and CloudFront.",
+                        importanceScore: 9
+                    },
+                    {
+                        keyword: "Docker",
+                        priority: "medium",
+                        suggestedSection: "Skills",
+                        exampleUsage: "Containerized applications using Docker for consistent local development.",
+                        importanceScore: 7
+                    },
+                    {
+                        keyword: "CI/CD",
+                        priority: "high",
+                        suggestedSection: "Experience",
+                        exampleUsage: "Implemented CI/CD pipelines using GitHub Actions to automate deployments.",
+                        importanceScore: 8
+                    }
+                ],
+                recommendations: [
+                    "Include more details about your experience with cloud platforms like AWS.",
+                    "Highlight mentoring or leadership experience to align better with Senior role requirements.",
+                    "Add specific metrics (e.g., 'improved performance by 20%') to quantify your impact."
+                ],
+                resumeSkills: ["React", "TypeScript", "JavaScript", "HTML/CSS", "Git", "Node.js", "Redux", "GraphQL", "Jest", "Cypress"]
+            };
+
+            sessionStorage.setItem('analysisResult', JSON.stringify(mockResult));
+            sessionStorage.setItem('analysisFileName', 'example_john_doe_resume.pdf');
+            setIsAnalyzing(false);
+            navigate('/results');
+        }, 1500);
+    };
+
     if (isAnalyzing) {
         return (
             <Loading
@@ -144,6 +208,9 @@ const ResumeAnalysis = () => {
                                     px={8}
                                     py={7}
                                     leftIcon={<Icon as={FiPlay} />}
+                                    onClick={handleViewExample}
+                                    isLoading={isAnalyzing}
+                                    loadingText=""
                                 >
                                     View Example
                                 </Button>
