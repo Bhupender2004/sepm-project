@@ -241,7 +241,7 @@ const ResumeAnalysis = () => {
                                     />
                                 </Text>{' '}
                                 Your <br />
-                                Resume with AI
+                                Resume <Text as="span" color="#2DD4BF">with AI</Text>
                             </Heading>
 
                             <Text color="gray.500" fontSize={{ base: "xl", md: "2xl" }} lineHeight="tall" maxW="lg">
