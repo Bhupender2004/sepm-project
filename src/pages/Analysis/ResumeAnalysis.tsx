@@ -16,7 +16,7 @@ import {
     Flex,
     Image,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiArrowRight, FiPlay, FiFileText, FiList } from 'react-icons/fi';
 import FileUpload from '../../components/features/FileUpload';
 import Loading from '../../components/common/Loading';
@@ -25,6 +25,52 @@ import { analyzeResume, type AnalysisResult } from '../../services/AnalysisServi
 
 const MAX_JD_CHARS = 10000;
 
+const words = ['Analyze', 'Improve', 'Optimize', 'Enhance'];
+
+const useTypewriter = (words: string[], typingSpeed = 120, deletingSpeed = 80, pauseDuration = 1800) => {
+    const [displayText, setDisplayText] = useState(words[0]);
+    const [wordIndex, setWordIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+        const currentWord = words[wordIndex];
+
+        if (isPaused) {
+            const pauseTimer = setTimeout(() => {
+                setIsPaused(false);
+                setIsDeleting(true);
+            }, pauseDuration);
+            return () => clearTimeout(pauseTimer);
+        }
+
+        if (isDeleting) {
+            if (displayText.length === 0) {
+                setIsDeleting(false);
+                setWordIndex((prev) => (prev + 1) % words.length);
+                return;
+            }
+            const deleteTimer = setTimeout(() => {
+                setDisplayText((prev) => prev.slice(0, -1));
+            }, deletingSpeed);
+            return () => clearTimeout(deleteTimer);
+        }
+
+        // Typing
+        if (displayText.length < currentWord.length) {
+            const typeTimer = setTimeout(() => {
+                setDisplayText(currentWord.slice(0, displayText.length + 1));
+            }, typingSpeed);
+            return () => clearTimeout(typeTimer);
+        }
+
+        // Word complete, pause
+        setIsPaused(true);
+    }, [displayText, wordIndex, isDeleting, isPaused, words, typingSpeed, deletingSpeed, pauseDuration]);
+
+    return displayText;
+};
+
 const ResumeAnalysis = () => {
     const [file, setFile] = useState<File | null>(null);
     const [jobDescription, setJobDescription] = useState('');
@@ -32,6 +78,7 @@ const ResumeAnalysis = () => {
     const [error, setError] = useState<string | null>(null);
     const toast = useToast();
     const navigate = useNavigate();
+    const typewriterText = useTypewriter(words);
 
     const handleAnalyze = async () => {
         setError(null);
@@ -174,8 +221,27 @@ const ResumeAnalysis = () => {
                                 letterSpacing="tight"
                                 color="gray.900"
                             >
-                                Analyze Your <br />
-                                Resume <Text as="span" color="#7AAACE">with AI</Text>
+                                <Text as="span" color="#7AAACE" display="inline">
+                                    {typewriterText}
+                                    <Text
+                                        as="span"
+                                        display="inline-block"
+                                        w="3px"
+                                        h="0.9em"
+                                        bg="#7AAACE"
+                                        ml="2px"
+                                        verticalAlign="text-bottom"
+                                        sx={{
+                                            animation: 'blink 1s step-end infinite',
+                                            '@keyframes blink': {
+                                                '0%, 100%': { opacity: 1 },
+                                                '50%': { opacity: 0 }
+                                            }
+                                        }}
+                                    />
+                                </Text>{' '}
+                                Your <br />
+                                Resume with AI
                             </Heading>
 
                             <Text color="gray.500" fontSize={{ base: "xl", md: "2xl" }} lineHeight="tall" maxW="lg">
