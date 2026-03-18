@@ -303,8 +303,9 @@ const ResumeAnalysis = () => {
                                     src="/ai_resume_illustration.png"
                                     alt="AI Resume Analysis Illustration"
                                     w="100%"
-                                    maxH="400px"
-                                    objectFit="contain"
+                                    h="400px"
+                                    objectFit="cover"
+                                    objectPosition="center"
                                     borderRadius="2xl"
                                     display="block"
                                 />
