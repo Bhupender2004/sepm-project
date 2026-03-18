@@ -284,13 +284,12 @@ const ResumeAnalysis = () => {
                         </VStack>
 
                         <Box display={{ base: "none", md: "block" }} flex={1}>
-                            <Image
-                                src="/ai_resume_illustration.png"
-                                alt="AI Resume Analysis Illustration"
-                                w="100%"
-                                maxH="400px"
-                                objectFit="contain"
-                                borderRadius="2xl"
+                            <Box
+                                borderRadius="3xl"
+                                overflow="hidden"
+                                bg="white"
+                                p={2}
+                                boxShadow="0 24px 50px rgba(86, 129, 163, 0.28)"
                                 animation="floating 3s ease-in-out infinite"
                                 sx={{
                                     '@keyframes floating': {
@@ -299,7 +298,17 @@ const ResumeAnalysis = () => {
                                         '100%': { transform: 'translateY(0px)' }
                                     }
                                 }}
-                            />
+                            >
+                                <Image
+                                    src="/ai_resume_illustration.png"
+                                    alt="AI Resume Analysis Illustration"
+                                    w="100%"
+                                    maxH="400px"
+                                    objectFit="contain"
+                                    borderRadius="2xl"
+                                    display="block"
+                                />
+                            </Box>
                         </Box>
                     </Flex>
                 </Box>
