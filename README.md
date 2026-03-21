@@ -223,3 +223,5 @@ Open **http://localhost:5173** in your browser. You can:
 ## 📜 License
 
 This project is licensed under the **MIT License**.
+
+RESUME Analyzer...
