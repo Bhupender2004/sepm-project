@@ -14,6 +14,12 @@ const sequelize = isSQLite
     : config.database.url
         ? new Sequelize(config.database.url, {
             dialect: 'postgres',
+            dialectOptions: config.nodeEnv === 'production' ? {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false,
+                }
+            } : {},
             logging: config.nodeEnv === 'development' ? (msg) => logger.debug(msg) : false,
             pool: {
                 max: 10,
@@ -29,6 +35,12 @@ const sequelize = isSQLite
             host: config.database.host,
             port: config.database.port,
             dialect: 'postgres',
+            dialectOptions: config.nodeEnv === 'production' ? {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false,
+                }
+            } : {},
             logging: config.nodeEnv === 'development' ? (msg) => logger.debug(msg) : false,
             pool: {
                 max: 10,
