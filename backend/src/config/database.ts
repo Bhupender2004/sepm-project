@@ -2,13 +2,13 @@ import { Sequelize } from 'sequelize';
 import config from './env';
 import logger from '../utils/logger.util';
 
-// Use SQLite for development if DATABASE_URL contains sqlite
-const isSQLite = config.database.url.includes('sqlite');
+// Use SQLite for development or if DATABASE_URL is not provided
+const isSQLite = !config.database.url || config.database.url.includes('sqlite');
 
 const sequelize = isSQLite
     ? new Sequelize({
         dialect: 'sqlite',
-        storage: config.database.url.replace('sqlite:', ''),
+        storage: config.database.url ? config.database.url.replace('sqlite:', '') : './database.sqlite',
         logging: config.nodeEnv === 'development' ? (msg) => logger.debug(msg) : false,
     })
     : config.database.url
