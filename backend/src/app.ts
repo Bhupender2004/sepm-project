@@ -18,6 +18,9 @@ import savedJobRoutes from './routes/saved-job.routes';
 
 const app: Application = express();
 
+// Trust reverse proxy (needed for accurate IP rate limiting on Render/Heroku/Vercel)
+app.set('trust proxy', 1);
+
 // ── Rate limiters ──────────────────────────────────────────────────────────────
 // Global limiter applied to all /api routes
 const globalLimiter = rateLimit({
