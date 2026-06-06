@@ -1,4 +1,6 @@
-const BASE_URL = '/api/saved-jobs';
+import { API_BASE_URL } from './api';
+
+const BASE_URL = `${API_BASE_URL}/saved-jobs`;
 
 export interface SavedJobEntry {
     id: string;

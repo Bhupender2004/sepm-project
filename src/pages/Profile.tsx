@@ -17,6 +17,7 @@ import Section from '../components/layout/Section';
 import CustomCard from '../components/common/CustomCard';
 import CustomButton from '../components/common/CustomButton';
 import FormInput from '../components/common/FormInput';
+import { API_BASE_URL } from '../services/api';
 
 const Profile = () => {
     const toast = useToast();
@@ -42,7 +43,7 @@ const Profile = () => {
     const handleProfileSave = async () => {
         setSavingProfile(true);
         try {
-            const response = await fetch('/api/users/me', {
+            const response = await fetch(`${API_BASE_URL}/users/me`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(profile),
@@ -68,7 +69,7 @@ const Profile = () => {
 
         setSavingPassword(true);
         try {
-            const response = await fetch('/api/users/me/change-password', {
+            const response = await fetch(`${API_BASE_URL}/users/me/change-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

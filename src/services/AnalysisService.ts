@@ -38,7 +38,9 @@ export interface AnalysisResult {
     resumeSkills: string[];
 }
 
-const BASE_URL = '/api/public';
+import { API_BASE_URL } from './api';
+
+const BASE_URL = `${API_BASE_URL}/public`;
 
 /**
  * Run a full resume-vs-JD analysis without authentication.

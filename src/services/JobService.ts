@@ -14,7 +14,9 @@ export interface Job {
     matchScore: number;
 }
 
-const BASE_URL = '/api/jobs';
+import { API_BASE_URL } from './api';
+
+const BASE_URL = `${API_BASE_URL}/jobs`;
 
 /**
  * Search jobs by keywords and location

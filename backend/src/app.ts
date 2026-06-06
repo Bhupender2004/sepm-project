@@ -49,6 +49,18 @@ const allowedOrigins = config.frontendUrl
     .map((url) => url.trim())
     .filter(Boolean);
 
+// Default permitted origins in production & development to prevent setup mismatch
+const defaultOrigins = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://resumeai-project-pied.vercel.app'
+];
+defaultOrigins.forEach((origin) => {
+    if (!allowedOrigins.includes(origin)) {
+        allowedOrigins.push(origin);
+    }
+});
+
 app.use(
     cors({
         origin: (origin, callback) => {

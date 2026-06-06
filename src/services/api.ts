@@ -1,6 +1,16 @@
 import axios, { type AxiosInstance, type AxiosError } from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+let API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+if (
+    typeof window !== 'undefined' &&
+    !window.location.hostname.includes('localhost') &&
+    (!import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL === '/api')
+) {
+    API_BASE_URL = 'https://sepm-project-t20g.onrender.com/api';
+}
+
+export { API_BASE_URL };
 
 class ApiClient {
     private client: AxiosInstance;
