@@ -62,6 +62,11 @@ export const connectDatabase = async (): Promise<void> => {
         logger.info('✅ Database synchronized');
     } catch (error) {
         logger.error(`❌ Unable to connect to the database: ${error instanceof Error ? error.stack || error.message : error}`);
+        try {
+            logger.error(`Database Config Detail -> Dialect: ${sequelize.getDialect()}, Host: ${sequelize.config.host}, Port: ${sequelize.config.port}, Database: ${sequelize.config.database}, Username: ${sequelize.config.username}`);
+        } catch (logErr) {
+            // Ignore logging error
+        }
         process.exit(1);
     }
 };
