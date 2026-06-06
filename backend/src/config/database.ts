@@ -61,7 +61,7 @@ export const connectDatabase = async (): Promise<void> => {
         await sequelize.sync();
         logger.info('✅ Database synchronized');
     } catch (error) {
-        logger.error('❌ Unable to connect to the database:', error);
+        logger.error(`❌ Unable to connect to the database: ${error instanceof Error ? error.stack || error.message : error}`);
         process.exit(1);
     }
 };
