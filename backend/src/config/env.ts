@@ -65,7 +65,7 @@ const config: Config = {
     },
     openrouter: {
         apiKey: process.env.OPENROUTER_API_KEY || '',
-        model: process.env.OPENROUTER_MODEL || 'deepseek/deepseek-r1:free',
+        model: process.env.OPENROUTER_MODEL || 'z-ai/glm-4.5-air:free',
     },
     rapidApi: {
         key: process.env.RAPIDAPI_KEY || '',
