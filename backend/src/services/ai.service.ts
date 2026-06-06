@@ -199,6 +199,72 @@ Return ONLY the JSON object, no additional text or markdown.
       throw error;
     }
   }
+
+  /**
+   * Run a direct comparison between raw resume text and raw job description text in one step.
+   */
+  async analyzeMatchDirect(resumeText: string, jdText: string): Promise<any> {
+    const prompt = `
+You are an expert resume analyzer and ATS optimization tool. Compare the resume against the job description and provide a detailed analysis.
+
+Resume Text:
+${resumeText}
+
+Job Description:
+${jdText}
+
+Provide your complete analysis in this JSON format:
+{
+  "overallScore": 75,
+  "categoryScores": {
+    "technicalSkills": 80,
+    "softSkills": 70,
+    "experience": 75,
+    "education": 85,
+    "keywords": 65
+  },
+  "matchedElements": {
+    "skills": ["matched skill1", "matched skill2"],
+    "experience": ["relevant experience point"],
+    "education": ["matched education requirement"],
+    "keywords": ["keyword1", "keyword2"]
+  },
+  "missingElements": {
+    "skills": ["missing skill1", "missing skill2"],
+    "experience": ["missing experience aspect"],
+    "keywords": ["missing keyword1"]
+  },
+  "keywordSuggestions": [
+    {
+      "keyword": "React",
+      "priority": "high",
+      "suggestedSection": "Skills",
+      "exampleUsage": "Built responsive UIs using React.js",
+      "importanceScore": 90
+    }
+  ],
+  "atsScore": 72,
+  "recommendations": [
+    "Add React to your skills section",
+    "Highlight any cloud experience"
+  ],
+  "summary": "Your resume shows strong technical skills...",
+  "resumeSkills": ["list of skills found in the resume", "skill2", "skill3"]
+}
+
+Return ONLY the JSON object, no additional text or markdown.
+`;
+
+    try {
+      const text = await this.chat(prompt);
+      const jsonStr = this.extractJSON(text);
+      if (jsonStr) return JSON.parse(jsonStr);
+      throw new Error('Failed to parse AI response');
+    } catch (error) {
+      logger.error('AI Direct Match Analysis Error:', error);
+      throw error;
+    }
+  }
 }
 
 export default new AIService();

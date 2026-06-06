@@ -37,21 +37,10 @@ class PublicAnalysisController {
                 return;
             }
 
-            // ── Step 2: Parse resume sections with AI ───────────────────────
-            const parsedResume = await aiService.parseResume(resumeText);
+            // ── Step 2: Run match analysis with AI directly in one step ─────
+            const analysis = await aiService.analyzeMatchDirect(resumeText, jobDescription);
 
-            // ── Step 3: Parse job description with AI ───────────────────────
-            const parsedJD = await aiService.parseJobDescription(jobDescription);
-
-            // ── Step 4: Run match analysis with AI ──────────────────────────
-            const analysis = await aiService.analyzeMatch(
-                parsedResume,
-                parsedJD,
-                resumeText,
-                jobDescription
-            );
-
-            // ── Step 5: Build structured response ───────────────────────────
+            // ── Step 3: Build structured response ───────────────────────────
             const result = {
                 overallScore: analysis.overallScore ?? 0,
                 atsScore: analysis.atsScore ?? 0,
@@ -82,7 +71,7 @@ class PublicAnalysisController {
                     importanceScore: kw.importanceScore ?? 50,
                 })),
                 recommendations: analysis.recommendations ?? [],
-                resumeSkills: parsedResume.skills ?? [],
+                resumeSkills: analysis.resumeSkills ?? [],
             };
 
             logger.info(`Public analysis completed — score: ${result.overallScore}`);
