@@ -202,3 +202,52 @@ button:focus-visible {
     transform: translate(-10px, -15px) scale(1.01);
   }
 }
+
+/* ── Print Styles for Report PDF Export ── */
+@media print {
+  /* Hide screen-only layouts, background decorations, and buttons */
+  header,
+  footer,
+  .no-print,
+  .screen-only,
+  button,
+  .chakra-button,
+  hr,
+  .chakra-divider,
+  [position="fixed"],
+  [animation^="float"] {
+    display: none !important;
+  }
+
+  /* Show the print-only container and format for paper */
+  .print-only {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Reset layout constraints and colors for printing */
+  body, html, #root {
+    background: white !important;
+    background-color: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Page setup (A4 standard with standard margins) */
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  /* Prevent page breaks in the middle of structured sections */
+  .print-avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
